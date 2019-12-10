@@ -1,0 +1,121 @@
+header {
+    text-align: center;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+th, td {
+    padding: 15px;
+}
+
+td:not(:last-child) {
+    border-right: 1px solid black;
+}
+
+tr.alert td {
+    border-top: 5px solid red;
+    border-bottom: 5px solid red;
+}
+
+tr.greenAlert td {
+    border-top: 5px solid green;
+    border-bottom: 5px solid green;
+}
+
+tr:not(.alert):not(.greenAlert) td {
+    border-bottom: 1px solid black;
+}
+
+tr.alert td:first-child {
+    border-left: 5px solid red;
+}
+
+tr.greenAlert td:first-child {
+    border-left: 5px solid green;
+}
+
+/* tr:not(.alert):not(.greenAlert) td:first-child {
+    border-left: 1px solid black;
+} */
+
+tr.alert td:last-child {
+    border-right: 5px solid red;
+}
+
+tr.greenAlert td:last-child {
+    border-right: 5px solid green;
+}
+
+/* tr:not(.alert):not(.greenAlert) td:last-child {
+    border-right: 1px solid black;
+} */
+
+div.standby {
+    width: 0px;
+    height: 0px;
+    visibility: collapse;
+}
+
+div.active {
+    width: 100%;
+    height: auto;
+    visibility: visible;
+}
+
+input.black {
+    background-color: black;
+    color: white;
+}
+
+input.white {
+    background-color: white;
+    color: black;
+}
+
+span.blackText {
+    color: black;
+}
+
+span.whiteText {
+    color: white;
+}
+
+input.momInput {
+    margin-bottom: 5px;
+}
+
+button.momMessageButton {
+    text-align: center;
+}
+
+div#momMessageContainerDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 60%;
+    margin-top: 5px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+div#momMessageStartDiv {
+    order: 1;
+}
+
+div#momMessageEndDiv {
+    order: 2;
+}
+
+div#mipDiv {
+    display: block;
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#mipDiv h3 {
+    text-align: center;
+}
