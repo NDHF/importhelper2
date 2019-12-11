@@ -6,12 +6,24 @@ console.log(
     "IN DEVELOPMENT: NOT FOR USE \n" +
     "UPDATES FROM 1.1: \n" +
     "Take two spreadsheets and merges them."
-    // WHAT'S NEEDED:
-    // CHECK FOR HIGH-VALUE PRODUCTS
-    // CHECK FOR SPECIAL PACKAGING
 );
 
 document.addEventListener("DOMContentLoaded", function () {
+
+    // CLIENT-SPECIFIC DATA STORED IN specificValues-personal.js
+    // THIS FUNCTION WILL CHECK HOW THE OBJECT IS POPULATED
+    function checkSpecificValuesObject() {
+        let specificValuesArray = Object.keys(specificValues);
+        console.log("SPECIFIC VALUES BEING USED:");
+        specificValuesArray.forEach(function (item) {
+            if (specificValues[item] === "") {
+                console.error(item + "does not have a value yet.");
+            } else {
+                console.log(item + ": " + specificValues[item]);
+            }
+        });
+    }
+    checkSpecificValuesObject();
 
     // QUALITY-OF-LIFE FUNCTIONS START
 
@@ -104,7 +116,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     heading: "ALERTS"
                 }
             ];
-            let tableHeaderRow = getById("tableHeaderRow");
             let firstItemOfFinalArray = finalArray[0];
 
             function appendTH(propertiesForTableItem) {
@@ -280,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     function checkForPossibleExcessShipping() {
-                        let oneDayZone = ["CO", "WY", "NE", "SD"];
+                        let oneDayZone = specificValues.oneDayZoneArray;
                         let shipIsSAV = (finalArrayItem.shipVia === "SAV");
                         let shipIsUPN = (finalArrayItem.shipVia === "UPN");
                         let overnightShipping = (shipIsSAV || shipIsUPN);
@@ -296,10 +307,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 activateAlertStatus();
                             }
                         }
-                        let twoDayZone = oneDayZone.concat(["MT", "ID", "NV",
-                            "UT", "AZ", "NM", "TX", "OK", "AR", "KS", "MO",
-                            "IA", "IL"
-                        ]);
+                        let twoDayZone = oneDayZone.concat(specificValues.twoDayZoneArray);
 
                         function twoDayZoneCheck(twoDayState) {
                             if (twoOrThreeDayShipping && (finalArrayItem.state === twoDayState)) {
@@ -308,12 +316,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 activateAlertStatus();
                             }
                         }
-                        let wholeUS = twoDayZone.concat(["WA", "OR",
-                            "CA", "ND", "MN", "WI", "LA", "IN", "KY", "TN", "MS",
-                            "AL", "MI", "OH", "WV", "VA", "NC", "SC", "GA", "FL",
-                            "PA", "MD", "DE", "NJ", "CT", "NY", "RI", "MA", "NH",
-                            "VT", "ME", "HI", "AK", "PR"
-                        ]);
+                        let wholeUS = twoDayZone.concat(specificValues.restOfContiguousUS);
                         let orderIsInUS = (wholeUS.includes(finalArrayItem.state));
                         let orderIsNotInUS = (!orderIsInUS);
 
@@ -409,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 arrayOfInputs[1].forEach(loopThroughAdminArray);
             }
             let firstArrayIsEmpty = (arrayOfInputs[0] === "");
-            let secondArrayIsEmpty = (arrayOfInputs[1] === "")
+            let secondArrayIsEmpty = (arrayOfInputs[1] === "");
             if (firstArrayIsEmpty && !secondArrayIsEmpty) {
                 finalArray = arrayOfInputs[1];
             } else if (!firstArrayIsEmpty && secondArrayIsEmpty) {
@@ -462,18 +465,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         alertArray: [],
                         shippingAlert: false
                     }
-                    if ((subArray.includes("LABOR")) || (subArray.includes("")) || (subArray.includes(""))) {
+                    if ((subArray.includes("LABOR")) || (subArray.includes(specificValues.specialLaborCode1)) || (subArray.includes(specificValues.specialLaborCode2))) {
                         folderArrayObject.labor = true;
                     } else {
                         folderArrayObject.labor = false;
                     }
-                    let modifyPackingArray = [
-
-
-
-
-
-                    ]
+                    let modifyPackingArray = specificValues.arrayOfProductsWhichMightNeedSpecialPacking;
                     let specialPackingCounter = 0;
 
                     function checkForSpecialPackingItems(specialPackingItem) {
@@ -487,7 +484,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
                         folderArrayObject.specialPackingRequired = false;
                     }
-                    if (subArray.includes("")) {
+                    if (subArray.includes(specificValues.specialOrderCode)) {
                         folderArrayObject.specialOrder = true;
                     } else {
                         folderArrayObject.specialOrder = false;
@@ -583,8 +580,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let folderArray = arrayOfInputs[0];
             let adminArray = arrayOfInputs[1];
 
-            let folderArrayValidationString = "";
-            let adminArrayValidationString = "";
+            let folderArrayValidationString = specificValues.momFolderValidationString;
+            let adminArrayValidationString = specificValues.adminFolderValidationString;
 
             let folderValStrLength = folderArrayValidationString.length;
             let adminValStrLength = adminArrayValidationString.length;
@@ -636,7 +633,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (startOrEnd === "start") {
                     getById("momMessageStartInput").classList.remove("black");
                     getById("momMessageStartInput").classList.remove("white");
-                    message = "[name] Importing " + time;
+                    message = specificValues.companyName + " Importing " + time;
                     getById("momMessageStartInput").value = message;
                     getById("momMessageStartInput").classList.add("white");
                     getById("copiedMessageForStart").classList.remove("whiteText");
@@ -645,7 +642,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else if (startOrEnd === "end") {
                     getById("momMessageEndInput").classList.remove("black");
                     getById("momMessageEndInput").classList.remove("white");
-                    message = "[name] Import Complete " + time;
+                    message = specificValues.companyName + " Import Complete " + time;
                     getById("momMessageEndInput").value = message;
                     getById("momMessageEndInput").classList.add("white");
                     getById("copiedMessageForEnd").classList.remove("whiteText");

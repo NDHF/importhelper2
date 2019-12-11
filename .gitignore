@@ -1,3 +1,7 @@
 # Don't track these folders
 
 orders/
+
+# Don't track this file
+
+specificValues-personal.js
