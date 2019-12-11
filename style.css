@@ -5,6 +5,7 @@ header {
 table {
     border-collapse: separate;
     border-spacing: 0;
+    margin-bottom: 5%;
 }
 
 th, td {
@@ -118,4 +119,16 @@ div#mipDiv {
 
 div#mipDiv h3 {
     text-align: center;
+}
+
+footer {
+    position: fixed;
+    width: 100%;
+    bottom: 5px;
+    left: 5px;
+    padding-top: 5px;
+    padding-left: 5px;
+    border-top: outset;
+    background-color: white;
+    box-shadow: 0 50vh 0 50vh #fff;
 }
