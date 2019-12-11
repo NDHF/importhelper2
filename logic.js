@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("SPECIFIC VALUES BEING USED:");
         specificValuesArray.forEach(function (item) {
             if (specificValues[item] === "") {
-                console.error(item + "does not have a value yet.");
+                console.error(item + " does not have a value yet.");
             } else {
                 console.log(item + ": " + specificValues[item]);
             }
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function validateIPAddress() {
-                    let ourIPAddress = "205.168.155";
+                    let ourIPAddress = specificValues.companyIPAddress;
                     let noIPAddress = "";
                     let ipMatches1 = (finalArrayItem.ipAddress === ourIPAddress);
                     let ipMatches2 = (finalArrayItem.ipAddress === noIPAddress);

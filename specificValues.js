@@ -2,6 +2,7 @@ const specificValues = {
     companyName: "",
     momFolderValidationString: "",
     adminFolderValidationString: "",
+    companyIPAddress: "",
     arrayOfProductsWhichMightNeedSpecialPacking: [],
     specialOrderCode: "",
     specialLaborCode1: "",
