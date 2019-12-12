@@ -157,6 +157,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 propertiesForTable.forEach(makeTableRowContent);
             }
             finalArray.forEach(appendRows);
+            function displayNumberOfOrders() {
+                let numberOfResultsHeader = getById("numberOfResults");
+                let numberOfResults = (getById("resultsTable").children.length - 1);
+                let numOfResultsText = document.createTextNode("Now displaying " + numberOfResults + " orders.");
+                numberOfResultsHeader.appendChild(numOfResultsText);
+            }
+            displayNumberOfOrders();
         };
 
         function cleanAndEvaluateObjects(finalArrayItem) {
