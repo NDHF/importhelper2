@@ -10,20 +10,37 @@ console.log(
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // CLIENT-SPECIFIC DATA STORED IN specificValues-personal.js
-    // THIS FUNCTION WILL CHECK HOW THE OBJECT IS POPULATED
-    function checkSpecificValuesObject() {
-        let specificValuesArray = Object.keys(specificValues);
-        console.log("SPECIFIC VALUES BEING USED:");
-        specificValuesArray.forEach(function (item) {
-            if (specificValues[item] === "") {
-                console.error(item + " does not have a value yet.");
-            } else {
-                console.log(item + ": " + specificValues[item]);
-            }
-        });
-    }
-    checkSpecificValuesObject();
+    // // CLIENT-SPECIFIC DATA STORED IN specificValues-personal.js
+    // // THIS FUNCTION WILL CHECK HOW THE OBJECT IS POPULATED
+    // function checkSpecificValuesObject() {
+    //     let specificValuesArray = Object.keys(specificValues);
+    //     console.log("SPECIFIC VALUES BEING USED:");
+    //     specificValuesArray.forEach(function (item) {
+    //         if (specificValues[item] === "") {
+    //             console.error(item + " does not have a value yet.");
+    //         } else {
+    //             console.log(item + ": " + specificValues[item]);
+    //         }
+    //     });
+    // }
+    // checkSpecificValuesObject();
+
+    // // CHECK FOR DUPLICATE ITEMS IN THE STATE ABBREVIATION ARRAYS
+    // function checkStateArraysForDuplicates() {
+    //     let stateAbbrContainerArray = [];
+    //     let allStatesInArrays = specificValues.oneDayZoneArray.concat(specificValues.twoDayZoneArray, specificValues.restOfContiguousUS);
+
+    //     function checkForDuplicates(currentStateAbbr) {
+    //         if (stateAbbrContainerArray.includes(currentStateAbbr)) {
+    //             console.log("STATE ALREADY IN THE ARRAY: " + currentStateAbbr);
+    //         } else {
+    //             stateAbbrContainerArray.push(currentStateAbbr);
+    //         }
+    //     };
+
+    //     allStatesInArrays.forEach(checkForDuplicates);
+    // }
+    // checkStateArraysForDuplicates();
 
     // QUALITY-OF-LIFE FUNCTIONS START
 
@@ -157,6 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 propertiesForTable.forEach(makeTableRowContent);
             }
             finalArray.forEach(appendRows);
+
             function displayNumberOfOrders() {
                 let numberOfResultsHeader = getById("numberOfResults");
                 let numberOfResults = (getById("resultsTable").children.length - 1);
