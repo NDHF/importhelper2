@@ -28,14 +28,56 @@
 			<br>
 
 			<fieldset id="importTimeSelect">
-				<legend>Choose An Import Time</legend>
+				<legend><b>CHOOSE AN IMPORT TIME</b></legend>
 				<input type="radio" class="radioButton" name="whichImportTime" value="11"> 11 AM <br>
 				<input type="radio" class="radioButton" name="whichImportTime" value="13"> 1 PM <br>
 				<input type="radio" class="radioButton" name="whichImportTime" value="16"> 4 PM
 				<br>
 				<br>
 			</fieldset>
+
 			<button type="button" id="submitButton">SUBMIT</button>
+
+			<fieldset id="specificValues">
+				<legend><b>SET VALUES:</b></legend>
+				<br>
+				<span>Company Name: </span><input type="input" id="companyNameInput" />
+				<br />
+				<br />
+				<span>MOM Folder Validation String: </span><input type="input" id="momValidationInput" />
+				<br />
+				<br />
+				<span>Magento Admin Folder Validation String: </span><input type="input" id="adminValidationInput" />
+				<br />
+				<br />
+				<span>Company IP Address: </span><input type="input" id="ipAddressInput" />
+				<br />
+				<br />
+				<span>Special Order Code: </span><input type="input" id="specialOrderCodeInput" />
+				<br />
+				<br />
+				<span>Special Labor Codes (separate with commas): </span>
+				<br />
+				<textarea id="specialLaborCodeInput" rows="5" cols="60"></textarea>
+				<br>
+				<br>
+				<span>States In One-Day Zone (separate with commas):</span>
+				<br>
+				<textarea id="oneDayZoneInput" rows="5" cols="60"></textarea>
+				<br>
+				<br>
+				<span>States In Two-Day Zone (separate with commas):</span>
+				<br>
+				<textarea id="twoDayZoneInput" rows="5" cols="60"></textarea>
+				<br>
+				<br>
+				<span>States Outside of Two-Day Zone (separate with commas):</span>
+				<br>
+				<textarea id="remainderOfUSInput" rows="5" cols="60"></textarea>
+				<span></span>
+				<span></span>
+			</fieldset>
+			<button type="button" id="saveValuesButton">SAVE</button>
 		</div>
 
 
