@@ -769,6 +769,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (confirmation === true) {
             generateMessages();
             masterParsingLogic();
+            function pauseBeforeScrollingDown() {
+                function scrollToBottom() {
+                    window.scrollTo(0,document.body.scrollHeight);
+                }
+                setTimeout(scrollToBottom, 3500);
+            }
+            pauseBeforeScrollingDown();
         }
     }
 
