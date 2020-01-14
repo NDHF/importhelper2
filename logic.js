@@ -735,6 +735,31 @@ document.addEventListener("DOMContentLoaded", function () {
         generateCopyListeners();
     }
 
+    // FUNCTION FOR CALCULATING INSURANCE
+
+    function calculateInsurance() {
+        let wholesaleCost = parseInt(getById("insuranceCalcInput").value);
+        // Insurance is 2/3 of wholesale cost, rounded up 
+        // to the nearest hundred, minus one
+        // For example, the insurance on $516 will be $399
+        let twoThirdsOfWholesale = (wholesaleCost * (2/3));
+        let roundedUpToNearestHundred = Math.ceil(twoThirdsOfWholesale / 100) * 100;
+        getById("insuranceCalcInput").value = roundedUpToNearestHundred - 1;
+        getById("insuranceCalcInput").select();
+        document.execCommand('copy');
+        getById("copiedMessageForInsuranceCalc").classList.remove("whiteText");
+        getById("copiedMessageForInsuranceCalc").classList.add("blackText");
+
+        function resetInsuranceCalc() {
+            getById("insuranceCalcInput").value = "";
+            getById("copiedMessageForInsuranceCalc").classList.remove("blackText");
+            getById("copiedMessageForInsuranceCalc").classList.add("whiteText");
+        }
+        setTimeout(resetInsuranceCalc, 5000);
+    }
+
+    whenClicked("insuranceCalcButton", calculateInsurance);
+
     function confirmBeforeRunning() {
         let confirmMessage = "STOP!!! cried the archdeacon." +
             " The import might not be in yet!";

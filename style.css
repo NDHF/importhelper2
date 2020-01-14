@@ -3,6 +3,7 @@ header {
 }
 
 table {
+    margin-top: 15%;
     border-collapse: separate;
     border-spacing: 0;
     margin-bottom: 5%;
@@ -90,6 +91,36 @@ input.momInput {
 
 button.momMessageButton {
     text-align: center;
+}
+
+div#messagesDiv {
+    background-color: white;
+    border: 1px solid black;
+    border-top: 0;
+    border-right: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 33%;
+}
+
+div#calculatorDiv {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div#calculatorDivInputContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+button#insuranceCalcButton, span#copiedMessageForInsuranceCalc {
+    margin-left: 5px;
 }
 
 div#momMessageContainerDiv {
