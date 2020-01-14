@@ -341,18 +341,20 @@ document.addEventListener("DOMContentLoaded", function () {
                                 activateAlertStatus();
                             }
                         }
-                        let wholeUS = twoDayZone.concat(specificValues.restOfContiguousUS);
-                        let orderIsInUS = (wholeUS.includes(finalArrayItem.state));
-                        let orderIsNotInUS = (!orderIsInUS);
+
+                        let outsideStates = ["HI", "AK", "PR"];
 
                         function upsOutsideLower48Check() {
-                            let outsideStates = ["HI", "AK", "PR"];
                             if (outsideStates.includes(finalArrayItem.state)) {
                                 finalArrayItem.shippingAlert = true;
                                 finalArrayItem.alertArray.push("Order is UPS, outside of lower 48 states. I suggest you update shipping to FC or PM");
                                 activateAlertStatus();
                             }
                         }
+
+                        let wholeUS = twoDayZone.concat(specificValues.restOfContiguousUS, outsideStates);
+                        let orderIsInUS = (wholeUS.includes(finalArrayItem.state));
+                        let orderIsNotInUS = (!orderIsInUS);
 
                         function checkForInternationalOrder() {
                             if (orderIsNotInUS) {
