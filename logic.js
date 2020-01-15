@@ -10,38 +10,6 @@ console.log(
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // // CLIENT-SPECIFIC DATA STORED IN specificValues-personal.js
-    // // THIS FUNCTION WILL CHECK HOW THE OBJECT IS POPULATED
-    // function checkSpecificValuesObject() {
-    //     let specificValuesArray = Object.keys(specificValues);
-    //     console.log("SPECIFIC VALUES BEING USED:");
-    //     specificValuesArray.forEach(function (item) {
-    //         if (specificValues[item] === "") {
-    //             console.error(item + " does not have a value yet.");
-    //         } else {
-    //             console.log(item + ": " + specificValues[item]);
-    //         }
-    //     });
-    // }
-    // checkSpecificValuesObject();
-
-    // // CHECK FOR DUPLICATE ITEMS IN THE STATE ABBREVIATION ARRAYS
-    // function checkStateArraysForDuplicates() {
-    //     let stateAbbrContainerArray = [];
-    //     let allStatesInArrays = specificValues.oneDayZoneArray.concat(specificValues.twoDayZoneArray, specificValues.restOfContiguousUS);
-
-    //     function checkForDuplicates(currentStateAbbr) {
-    //         if (stateAbbrContainerArray.includes(currentStateAbbr)) {
-    //             console.log("STATE ALREADY IN THE ARRAY: " + currentStateAbbr);
-    //         } else {
-    //             stateAbbrContainerArray.push(currentStateAbbr);
-    //         }
-    //     };
-
-    //     allStatesInArrays.forEach(checkForDuplicates);
-    // }
-    // checkStateArraysForDuplicates();
-
     // QUALITY-OF-LIFE FUNCTIONS START
 
     function getById(id) {
@@ -492,11 +460,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         alertArray: [],
                         shippingAlert: false
                     }
-                    if ((subArray.includes("LABOR")) || (subArray.includes(specificValues.specialLaborCode1)) || (subArray.includes(specificValues.specialLaborCode2))) {
-                        folderArrayObject.labor = true;
-                    } else {
-                        folderArrayObject.labor = false;
-                    }
+                    specificValues.laborCodesArray.forEach(function (laborArrayItem) {
+                        if (subArray.includes(laborArrayItem)) {
+                            folderArrayObject.labor = true;
+                        } else {
+                            folderArrayObject.labor = false;
+                        }
+                    });
                     let modifyPackingArray = specificValues.arrayOfProductsWhichMightNeedSpecialPacking;
                     let specialPackingCounter = 0;
 
@@ -758,7 +728,6 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(resetInsuranceCalc, 5000);
     }
 
-    whenClicked("insuranceCalcButton", calculateInsurance);
 
     function confirmBeforeRunning() {
         let confirmMessage = "STOP!!! cried the archdeacon." +
@@ -779,6 +748,67 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function loadValues() {
+        if (localStorage.getItem("importHelperValues") === null) {
+            let noValuesMessage = "WARNING: No saved values detected. Load values before running the Import Helper";
+            alert(noValuesMessage);
+        } else {
+            specificValues = JSON.parse(localStorage.getItem("importHelperValues"));
+
+            getById("companyNameInput").value = specificValues.companyName;
+            getById("momValidationInput").value = specificValues.momFolderValidationString;
+            getById("adminValidationInput").value = specificValues.adminFolderValidationString;
+            getById("ipAddressInput").value = specificValues.companyIPAddress;
+            getById("specialOrderCodeInput").value = specificValues.specialOrderCode;
+            getById("specialLaborCodeInput").value = JSON.stringify(specificValues.specialLaborCodes);
+            getById("oneDayZoneInput").value = JSON.stringify(specificValues.oneDayZoneArray);
+            getById("twoDayZoneInput").value = JSON.stringify(specificValues.twoDayZoneArray);
+            getById("remainderOfUSInput").value = JSON.stringify(specificValues.restOfContiguousUS);
+        }
+    }
+
+    let specificValues = {
+        companyName: "",
+        momFolderValidationString: "",
+        adminFolderValidationString: "",
+        companyIPAddress: "",
+        specialOrderCode: "",
+        specialLaborCodes: [],
+        oneDayZoneArray: [],
+        twoDayZoneArray: [],
+        restOfContiguousUS: []
+    };
+
+    function saveValues() {
+        specificValues.companyName = getById("companyNameInput").value;
+        specificValues.momFolderValidationString = getById("momValidationInput").value;
+        specificValues.adminFolderValidationString = getById("adminValidationInput").value;
+        specificValues.companyIPAddress = getById("ipAddressInput").value;
+        specificValues.specialOrderCode = getById("specialOrderCodeInput").value;
+        let laborCodesInput = getById("specialLaborCodeInput").value;
+        let laborCodesArray = laborCodesInput.split(",");
+        specificValues.specialLaborCodes = laborCodesArray;
+        let oneDayZoneInput = getById("oneDayZoneInput").value;
+        let oneDayZoneInputArray = oneDayZoneInput.split(",");
+        specificValues.oneDayZoneArray = oneDayZoneInputArray;
+        let twoDayZoneInput = getById("twoDayZoneInput").value;
+        let twoDayZoneInputArray = twoDayZoneInput.split(",");
+        specificValues.twoDayZoneArray = twoDayZoneInputArray;
+        let restOfUSInput = getById("remainderOfUSInput").value;
+        let restOfUSInputArray = restOfUSInput.split(",");
+        specificValues.restOfContiguousUS = restOfUSInputArray;
+
+        let specificValuesStringified = JSON.stringify(specificValues)
+
+        localStorage.setItem("importHelperValues", specificValuesStringified);
+
+        loadValues();
+    }
+
+    loadValues();
+
     whenClicked("submitButton", confirmBeforeRunning);
+    whenClicked("insuranceCalcButton", calculateInsurance);
+    whenClicked("saveValuesButton", saveValues);
 
 });
