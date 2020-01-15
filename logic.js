@@ -460,32 +460,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         alertArray: [],
                         shippingAlert: false
                     }
-                    specificValues.laborCodesArray.forEach(function (laborArrayItem) {
+                    specificValues.specialLaborCodes.forEach(function (laborArrayItem) {
                         if (subArray.includes(laborArrayItem)) {
                             folderArrayObject.labor = true;
                         } else {
                             folderArrayObject.labor = false;
                         }
                     });
-                    let modifyPackingArray = specificValues.arrayOfProductsWhichMightNeedSpecialPacking;
-                    let specialPackingCounter = 0;
-
-                    function checkForSpecialPackingItems(specialPackingItem) {
-                        if (subArray.includes(specialPackingItem)) {
-                            specialPackingCounter += 1;
-                        }
-                    }
-                    modifyPackingArray.forEach(checkForSpecialPackingItems);
-                    if (specialPackingCounter > 0) {
-                        folderArrayObject.specialPackingRequired = true;
-                    } else {
-                        folderArrayObject.specialPackingRequired = false;
-                    }
-                    if (subArray.includes(specificValues.specialOrderCode)) {
-                        folderArrayObject.specialOrder = true;
-                    } else {
-                        folderArrayObject.specialOrder = false;
-                    }
                     arrayOfInputs[arrayIndex][subArrayIndex] = folderArrayObject;
                 }
 
