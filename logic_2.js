@@ -485,6 +485,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let selectedFile = inputElement.files[0];
 
+            console.log(selectedFile);
+
             var reader = new FileReader();
             reader.onload = function (fileLoadedEvent) {
                 var textFromFileLoaded = fileLoadedEvent.target.result;
@@ -499,71 +501,71 @@ document.addEventListener("DOMContentLoaded", function () {
 
             console.log(arrayOfInputs);
 
-            function parseInput() {
-                let stringified = JSON.stringify(inputElement);
-                let sliced = stringified.slice(1, stringified.length - 1);
-                let firstSplit = sliced.split("splitHere");
-                let secondSplit = [];
+            // function parseInput() {
+            //     let stringified = JSON.stringify(inputElement);
+            //     let sliced = stringified.slice(1, stringified.length - 1);
+            //     let firstSplit = sliced.split("splitHere");
+            //     let secondSplit = [];
 
-                function createSubArrays(arrayItem) {
-                    let subArray = arrayItem.split("\\t");
+            //     function createSubArrays(arrayItem) {
+            //         let subArray = arrayItem.split("\\t");
 
-                    function dateSieve(hours, startHour, endHour) {
-                        let hoursAboveMin = (hours >= startHour);
-                        let hoursBelowMax = (hours < endHour);
-                        let hoursAreInRange = (hoursAboveMin && hoursBelowMax);
-                        if (hoursAreInRange) {
-                            secondSplit.push(subArray);
-                        }
-                    }
+            //         function dateSieve(hours, startHour, endHour) {
+            //             let hoursAboveMin = (hours >= startHour);
+            //             let hoursBelowMax = (hours < endHour);
+            //             let hoursAreInRange = (hoursAboveMin && hoursBelowMax);
+            //             if (hoursAreInRange) {
+            //                 secondSplit.push(subArray);
+            //             }
+            //         }
 
-                    function checkForMultiLineOrder() {
-                        if (secondSplit.length === 0) {
-                            secondSplit.push(subArray);
-                        } else if (secondSplit.length > 0) {
-                            if (subArray[31] !== "X") {
-                                secondSplit.push(subArray);
-                            } else if (subArray[31] === "X") {
-                                secondSplit[secondSplit.length - 1] = secondSplit[secondSplit.length - 1].concat(subArray);
-                            }
-                        }
-                    }
+            //         function checkForMultiLineOrder() {
+            //             if (secondSplit.length === 0) {
+            //                 secondSplit.push(subArray);
+            //             } else if (secondSplit.length > 0) {
+            //                 if (subArray[31] !== "X") {
+            //                     secondSplit.push(subArray);
+            //                 } else if (subArray[31] === "X") {
+            //                     secondSplit[secondSplit.length - 1] = secondSplit[secondSplit.length - 1].concat(subArray);
+            //                 }
+            //             }
+            //         }
 
-                    function fixDates(indexOfDateString, needToAddUTC) {
-                        if (subArray[31] !== "X") {
-                            let dateString = subArray[indexOfDateString];
-                            if (needToAddUTC === true) {
-                                dateString = dateString.concat(" UTC");
-                            }
-                            let dateInMilliseconds = Date.parse(dateString);
-                            let standardDate = new Date(dateInMilliseconds);
-                            let dateToHours = standardDate.getHours();
-                            subArray[indexOfDateString] = dateToHours;
-                            if (subArray.length === 11) {
-                                dateSieve(dateToHours, 0, 23);
-                            } else {
-                                checkForMultiLineOrder();
-                            }
-                        } else {
-                            checkForMultiLineOrder();
-                        }
-                    }
+            //         function fixDates(indexOfDateString, needToAddUTC) {
+            //             if (subArray[31] !== "X") {
+            //                 let dateString = subArray[indexOfDateString];
+            //                 if (needToAddUTC === true) {
+            //                     dateString = dateString.concat(" UTC");
+            //                 }
+            //                 let dateInMilliseconds = Date.parse(dateString);
+            //                 let standardDate = new Date(dateInMilliseconds);
+            //                 let dateToHours = standardDate.getHours();
+            //                 subArray[indexOfDateString] = dateToHours;
+            //                 if (subArray.length === 11) {
+            //                     dateSieve(dateToHours, 0, 23);
+            //                 } else {
+            //                     checkForMultiLineOrder();
+            //                 }
+            //             } else {
+            //                 checkForMultiLineOrder();
+            //             }
+            //         }
 
-                    function fixDatesCallLogic() {
-                        if (subArray.length === 127) {
-                            fixDates(32, true);
-                        } else if (subArray.length === 11) {
-                            fixDates(1, false);
-                        }
-                    }
-                    fixDatesCallLogic();
-                }
-                firstSplit.forEach(createSubArrays);
-                arrayOfInputs[inputIndex] = secondSplit;
-            }
-            if (inputElement !== "") {
-                parseInput();
-            }
+            //         function fixDatesCallLogic() {
+            //             if (subArray.length === 127) {
+            //                 fixDates(32, true);
+            //             } else if (subArray.length === 11) {
+            //                 fixDates(1, false);
+            //             }
+            //         }
+            //         fixDatesCallLogic();
+            //     }
+            //     firstSplit.forEach(createSubArrays);
+            //     arrayOfInputs[inputIndex] = secondSplit;
+            // }
+            // if (inputElement !== "") {
+            //     parseInput();
+            // }
         }
 
         function terminateProgram(message) {

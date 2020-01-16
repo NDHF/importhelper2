@@ -750,7 +750,6 @@ document.addEventListener("DOMContentLoaded", function () {
             getById("twoDayZoneInput").value = specificValues.twoDayZoneArray;
             getById("remainderOfUSInput").value = specificValues.restOfContiguousUS;
         }
-        console.log(specificValues);
     }
 
     let specificValues = {
