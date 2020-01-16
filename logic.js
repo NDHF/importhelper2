@@ -344,7 +344,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 function checkForLabor() {
                     if (finalArrayItem.labor === true) {
-                        finalArrayItem.alertArray.push("This order includes a labor.");
+                        finalArrayItem.alertArray.push("This order includes AT LEAST one labor.");
                         activateAlertStatus();
                     }
                 }
@@ -460,13 +460,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         alertArray: [],
                         shippingAlert: false
                     }
+                    let laborCounter = 0;
                     specificValues.specialLaborCodes.forEach(function (laborArrayItem) {
                         if (subArray.includes(laborArrayItem)) {
-                            folderArrayObject.labor = true;
-                        } else {
-                            folderArrayObject.labor = false;
+                            laborCounter++;
                         }
                     });
+                    if (laborCounter > 0) {
+                        folderArrayObject.labor = true;
+                    } else {
+                        folderArrayObject.labor = false;
+                    }
                     arrayOfInputs[arrayIndex][subArrayIndex] = folderArrayObject;
                 }
 
@@ -746,6 +750,7 @@ document.addEventListener("DOMContentLoaded", function () {
             getById("twoDayZoneInput").value = specificValues.twoDayZoneArray;
             getById("remainderOfUSInput").value = specificValues.restOfContiguousUS;
         }
+        console.log(specificValues);
     }
 
     let specificValues = {

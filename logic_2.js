@@ -759,10 +759,10 @@ document.addEventListener("DOMContentLoaded", function () {
             getById("adminValidationInput").value = specificValues.adminFolderValidationString;
             getById("ipAddressInput").value = specificValues.companyIPAddress;
             getById("specialOrderCodeInput").value = specificValues.specialOrderCode;
-            getById("specialLaborCodeInput").value = JSON.stringify(specificValues.specialLaborCodes);
-            getById("oneDayZoneInput").value = JSON.stringify(specificValues.oneDayZoneArray);
-            getById("twoDayZoneInput").value = JSON.stringify(specificValues.twoDayZoneArray);
-            getById("remainderOfUSInput").value = JSON.stringify(specificValues.restOfContiguousUS);
+            getById("specialLaborCodeInput").value = specificValues.specialLaborCodes;
+            getById("oneDayZoneInput").value = specificValues.oneDayZoneArray;
+            getById("twoDayZoneInput").value = specificValues.twoDayZoneArray;
+            getById("remainderOfUSInput").value = specificValues.restOfContiguousUS;
         }
     }
 
