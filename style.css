@@ -97,6 +97,10 @@ button.momMessageButton {
     text-align: center;
 }
 
+button.setupScreenButton {
+    margin: 20px;
+}
+
 div#messagesDiv {
     background-color: white;
     border: 1px solid black;
