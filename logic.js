@@ -773,12 +773,15 @@ document.addEventListener("DOMContentLoaded", function () {
             getById("companyNameInput").value = specificValues.companyName;
             getById("momValidationInput").value = specificValues.momFolderValidationString;
             getById("adminValidationInput").value = specificValues.adminFolderValidationString;
+            getById("alternateIDInput").value = specificValues.alternateID;
             getById("ipAddressInput").value = specificValues.companyIPAddress;
             getById("specialOrderCodeInput").value = specificValues.specialOrderCode;
             getById("specialLaborCodeInput").value = specificValues.specialLaborCodes;
             getById("oneDayZoneInput").value = specificValues.oneDayZoneArray;
             getById("twoDayZoneInput").value = specificValues.twoDayZoneArray;
             getById("remainderOfUSInput").value = specificValues.restOfContiguousUS;
+
+            getById("alternateIDClickToCopy").value = specificValues.alternateID;
         }
     }
 
@@ -786,6 +789,7 @@ document.addEventListener("DOMContentLoaded", function () {
         companyName: "",
         momFolderValidationString: "",
         adminFolderValidationString: "",
+        alternateID: "",
         companyIPAddress: "",
         specialOrderCode: "",
         specialLaborCodes: [],
@@ -798,6 +802,7 @@ document.addEventListener("DOMContentLoaded", function () {
         specificValues.companyName = getById("companyNameInput").value;
         specificValues.momFolderValidationString = getById("momValidationInput").value;
         specificValues.adminFolderValidationString = getById("adminValidationInput").value;
+        specificValues.alternateID = getById("alternateIDInput").value;
         specificValues.companyIPAddress = getById("ipAddressInput").value;
         specificValues.specialOrderCode = getById("specialOrderCodeInput").value;
         let laborCodesInput = getById("specialLaborCodeInput").value;
