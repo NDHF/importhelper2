@@ -31,7 +31,7 @@ tr.greenAlert td {
     border-bottom: 5px solid green;
 }
 
-tr:not(.alert):not(.greenAlert) td {
+tr:not(.alert):not(.greenAlert):not(.purpleAlert) td {
     border-bottom: 1px solid black;
 }
 
@@ -48,10 +48,6 @@ tr.purpleAlert td {
     border-bottom: 5px solid purple;
 }
 
-tr:not(.alert):not(.purpleAlert) td {
-    border-bottom: 1px solid black;
-}
-
 tr.purpleAlert td:first-child {
     border-left: 5px solid purple;
 }
@@ -66,6 +62,10 @@ tr.alert td:last-child {
 
 tr.greenAlert td:last-child {
     border-right: 5px solid green;
+}
+
+tr.purpleAlert td:last-child {
+    border-right: 5px solid purple;
 }
 
 /* tr:not(.alert):not(.greenAlert) td:last-child {

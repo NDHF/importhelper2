@@ -143,6 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (getById("tableRow" + (index + 1)).classList.contains("alert") === true) {
                             getById("tableRow" + (index + 1)).classList.remove("alert");
                             getById("tableRow" + (index + 1)).classList.add("purpleAlert");
+                        } else {
+                            getById("tableRow" + (index + 1)).classList.add("purpleAlert");
                         }
                     }
                 }
@@ -159,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
             displayNumberOfOrders();
         };
 
-        function cleanAndEvaluateObjects(finalArrayItem) {
+        function cleanAndEvaluateObjects(finalArrayItem, finalArrayIndex) {
             function cleanUpObject() {
                 if (finalArrayItem.orderTotal !== undefined) {
                     let noDollarSign = finalArrayItem.orderTotal.slice(1);
@@ -194,20 +196,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function checkIfNameAlreadyExists() {
-                    if (index > 0) {
+                    if (finalArrayIndex > 0) {
+                        let finalArrayItemName = "Jack Example";
                         if (finalArrayItem.shippingName !== undefined) {
-                            if (duplicateCheckArray.includes(finalArrayItem.shippingName)) {
-                                finalArrayItem.nameAlreadyExists = true;
-                                finalArrayItem.alertArray.push("Another order with " + 
-                                "the name <b>" + finalArrayItem.customerName + 
-                                "</b> exists. " + "Check to see if these orders " + 
-                                "can be combined.");
-                            } else {
-                                finalArrayItem.nameAlreadyExists = false;
-                            }
+                            finalArrayItemName = finalArrayItem.shippingName;
+                        } else {
+                            finalArrayItemName = finalArrayItem.firstName + " " + finalArrayItem.lastName;
                         }
+                        if (duplicateCheckArray.includes(finalArrayItemName)) {
+                            finalArrayItem.nameAlreadyExists = true;
+                            finalArrayItem.alertArray.push("An earlier order with " +
+                                "the name ***" + finalArrayItemName +
+                                "*** exists. " + "Check to see if these orders " +
+                                "can be combined.");
+                        } else {
+                            finalArrayItem.nameAlreadyExists = false;
+                        }
+                        duplicateCheckArray.push(finalArrayItemName);
                     }
-                    duplicateCheckArray.push(finalArrayItem.customerName);
                 }
 
                 function checkForHighRiskOrder() {
