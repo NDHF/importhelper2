@@ -153,10 +153,8 @@ document.addEventListener("DOMContentLoaded", function () {
             finalArray.forEach(appendRows);
 
             function displayNumberOfOrders() {
-                let numberOfResultsHeader = getById("numberOfResults");
                 let numberOfResults = (getById("resultsTable").children.length - 1);
-                let numOfResultsText = document.createTextNode("Now displaying " + numberOfResults + " orders.");
-                numberOfResultsHeader.appendChild(numOfResultsText);
+                alert("Now displaying " + numberOfResults + " orders.");
             }
             displayNumberOfOrders();
         };
@@ -286,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let firstDigitOfPhoneNumber = finalArrayItem.phoneNumber.charAt(0);
                     let firstDigitIsOne = (firstDigitOfPhoneNumber === "1");
                     if (firstDigitIsOne) {
-                        finalArrayItem.alertArray.push("WARNING: First digit of phone number is '1'." +
+                        finalArrayItem.alertArray.push("WARNING: First digit of phone number is '1'. " +
                             "Check Admin or MOM spreadsheet for correct phone number.");
                         activateAlertStatus();
                     }
