@@ -184,3 +184,29 @@ footer {
     background-color: white;
     box-shadow: 0 50vh 0 50vh #fff;
 }
+
+fieldset {
+    padding: 25px;
+    border-radius: 10px;
+}
+
+fieldset.active {
+    visibility: visible;
+    height: auto;
+}
+
+fieldset.standby {
+    visibility: hidden;
+    height: 0px;
+}
+
+button#specificValuesFieldsetToggle {
+    display: block;
+    font-size: large;
+    border-radius: 5px;
+    margin: 15px; 
+}
+
+button#saveValuesButton {
+    display: block;
+}

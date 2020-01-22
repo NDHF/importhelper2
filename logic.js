@@ -824,8 +824,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadValues();
 
+    function toggleSettingsFieldset() {
+        let settingsFieldset = getById("specificValues");
+        if (settingsFieldset.classList.contains("standby")) {
+            settingsFieldset.classList.remove("standby");
+            settingsFieldset.classList.add("active");
+            getById("specificValuesFieldsetToggle").innerHTML = "HIDE SETTINGS";
+        } else if (settingsFieldset.classList.contains("active")) {
+            settingsFieldset.classList.remove("active");
+            settingsFieldset.classList.add("standby");
+            getById("specificValuesFieldsetToggle").innerHTML = "SHOW SETTINGS";
+        }
+    }
+
     whenClicked("submitButton", confirmBeforeRunning);
     whenClicked("insuranceCalcButton", calculateInsurance);
     whenClicked("saveValuesButton", saveValues);
+    whenClicked("specificValuesFieldsetToggle", toggleSettingsFieldset);
 
 });
