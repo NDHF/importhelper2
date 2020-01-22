@@ -153,8 +153,20 @@ document.addEventListener("DOMContentLoaded", function () {
             finalArray.forEach(appendRows);
 
             function displayNumberOfOrders() {
+                let randomMessagesArray = [
+                    "Gentlemen, start your engines.",
+                    "Let's do this.",
+                    "Just like old times...",
+                    "Let's get dangerous.",
+                    "Let's get into character.",
+                    "Little hand says it's time to rock and roll.",
+                    "It's time to d-d-d-d-d-duel!",
+                    "It's on now...",
+                    "It would seem your hour has... come again..."
+                ];
                 let numberOfResults = (getById("resultsTable").children.length - 1);
-                alert("Now displaying " + numberOfResults + " orders.");
+                let randomMessage = randomMessagesArray[Math.floor(Math.random() * randomMessagesArray.length)];
+                alert("Now working with " + numberOfResults + " orders. " + randomMessage);
             }
             displayNumberOfOrders();
         };

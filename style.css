@@ -228,3 +228,18 @@ button#specificValuesFieldsetToggle {
 button#saveValuesButton {
     display: block;
 }
+
+main {
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+main h2 {
+    text-align: center;
+}
+
+main li {
+    margin-bottom: 10px;
+}
