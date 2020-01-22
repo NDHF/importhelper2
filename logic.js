@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             getById("adminSpreadsheetInput").value
         ];
         let finalArray = [];
+        let duplicateCheckArray = [];
 
         function generateTable(array) {
             let propertiesForTable = [{
@@ -138,6 +139,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             getById("tableRow" + (index + 1)).classList.add("greenAlert");
                         }
                     }
+                    if (finalArrayItem.nameAlreadyExists === true) {
+                        if (getById("tableRow" + (index + 1)).classList.contains("alert") === true) {
+                            getById("tableRow" + (index + 1)).classList.remove("alert");
+                            getById("tableRow" + (index + 1)).classList.add("purpleAlert");
+                        }
+                    }
                 }
                 propertiesForTable.forEach(makeTableRowContent);
             }
@@ -184,6 +191,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (finalArrayItem.alertActive !== true) {
                         finalArrayItem.alertActive = true;
                     }
+                }
+
+                function checkIfNameAlreadyExists() {
+                    if (index > 0) {
+                        if (finalArrayItem.shippingName !== undefined) {
+                            if (duplicateCheckArray.includes(finalArrayItem.shippingName)) {
+                                finalArrayItem.nameAlreadyExists = true;
+                                finalArrayItem.alertArray.push("Another order with " + 
+                                "the name <b>" + finalArrayItem.customerName + 
+                                "</b> exists. " + "Check to see if these orders " + 
+                                "can be combined.");
+                            } else {
+                                finalArrayItem.nameAlreadyExists = false;
+                            }
+                        }
+                    }
+                    duplicateCheckArray.push(finalArrayItem.customerName);
                 }
 
                 function checkForHighRiskOrder() {
@@ -364,6 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function runChecks() {
+                    checkIfNameAlreadyExists()
                     checkForHighRiskOrder();
                     checkForSignatureRequired();
                     checkIfInsuranceRequired();
@@ -697,7 +722,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Insurance is 2/3 of wholesale cost, rounded up 
         // to the nearest hundred, minus one
         // For example, the insurance on $516 will be $399
-        let twoThirdsOfWholesale = (wholesaleCost * (2/3));
+        let twoThirdsOfWholesale = (wholesaleCost * (2 / 3));
         let roundedUpToNearestHundred = Math.ceil(twoThirdsOfWholesale / 100) * 100;
         getById("insuranceCalcInput").value = roundedUpToNearestHundred - 1;
         getById("insuranceCalcInput").select();
@@ -723,9 +748,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (confirmation === true) {
             generateMessages();
             masterParsingLogic();
+
             function pauseBeforeScrollingDown() {
                 function scrollToBottom() {
-                    window.scrollTo(0,document.body.scrollHeight);
+                    window.scrollTo(0, document.body.scrollHeight);
                 }
                 setTimeout(scrollToBottom, 3500);
             }

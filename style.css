@@ -43,6 +43,19 @@ tr.greenAlert td:first-child {
     border-left: 5px solid green;
 }
 
+tr.purpleAlert td {
+    border-top: 5px solid purple;
+    border-bottom: 5px solid purple;
+}
+
+tr:not(.alert):not(.purpleAlert) td {
+    border-bottom: 1px solid black;
+}
+
+tr.purpleAlert td:first-child {
+    border-left: 5px solid purple;
+}
+
 /* tr:not(.alert):not(.greenAlert) td:first-child {
     border-left: 1px solid black;
 } */
