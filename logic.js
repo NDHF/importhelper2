@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function checkForHighRiskOrder() {
-                    if (finalArrayItem.fraudRiskString >= 10) {
+                    if (finalArrayItem.fraudRiskString >= specificValues.highRiskThreshold) {
                         finalArrayItem.highRiskOrder = true;
                         finalArrayItem.alertArray.push("High fraud risk.");
                         activateAlertStatus();
@@ -274,12 +274,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function checkForHighValueOrder() {
-                    if (finalArrayItem.orderTotal >= 400) {
+                    if (finalArrayItem.orderTotal >= specificValues.highValueOrderThreshold) {
                         finalArrayItem.highValueOrder = true;
                         finalArrayItem.alertArray.push("High-value order.");
                         activateAlertStatus();
                     } else {
                         finalArrayItem.highValueOrder = false;
+                    }
+                }
+                
+                function checkForHighRiskANDHighValue() {
+                    if ((finalArrayItem.highValueOrder === true) &&
+                    (finalArrayItem.highRiskOrder === true)) {
+                        finalArrayItem.highRiskANDHighValue = true;
+                        let highRiskANDHighValueMessage = "DANGER: This order meets or exceeds the threshold for " +
+                        "a high-risk order AND a high-value order. Please check the order in Magento " +
+                        "to see if the billing address and shipping adress match, otherwise you may not be protected."; 
+                        finalArrayItem.alertArray.push(highRiskANDHighValueMessage);
                     }
                 }
 
@@ -426,6 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     checkForSignatureRequired();
                     checkIfInsuranceRequired();
                     checkForHighValueOrder();
+                    checkForHighRiskANDHighValue();
                     validateIPAddress();
                     checkForHighValueAndIPMatch();
                     checkForSpecialPackingRequirement();
@@ -820,7 +832,8 @@ document.addEventListener("DOMContentLoaded", function () {
             getById("oneDayZoneInput").value = specificValues.oneDayZoneArray;
             getById("twoDayZoneInput").value = specificValues.twoDayZoneArray;
             getById("remainderOfUSInput").value = specificValues.restOfContiguousUS;
-
+            getById("highValueOrderThresholdInput").value = specificValues.highValueOrderThreshold;
+            getById("highRiskThresholdInput").value = specificValues.highRiskThreshold;
             getById("alternateIDClickToCopy").value = specificValues.alternateID;
         }
     }
@@ -857,6 +870,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let restOfUSInput = getById("remainderOfUSInput").value;
         let restOfUSInputArray = restOfUSInput.split(",");
         specificValues.restOfContiguousUS = restOfUSInputArray;
+        specificValues.highValueOrderThreshold = parseInt(getById("highValueOrderThresholdInput").value);
+        specificValues.highRiskThreshold = parseInt(getById("highRiskThresholdInput").value);
 
         let specificValuesStringified = JSON.stringify(specificValues)
 
