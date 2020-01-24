@@ -22,16 +22,23 @@ table {
     margin-bottom: 5%;
 }
 
+input.standby, button.standby, fieldset.standby {
+    visibility: collapse;
+    height: 0px;
+}
+
+input.active, button.active, fieldset.active {
+    visibility: visible;
+    height: auto;
+}
+
 th, td {
     padding: 15px;
 }
 
-div#fixedDiv {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 25%;
-    z-index: 500;
+input.stringInput {
+    display: block;
+    margin-top: 10px;
 }
 
 td:not(:last-child) {
@@ -227,6 +234,13 @@ fieldset.standby {
 }
 
 button#specificValuesFieldsetToggle {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 5px;
+}
+
+button.largeButton {
     display: block;
     font-size: large;
     border-radius: 5px;

@@ -30,6 +30,17 @@ document.addEventListener("DOMContentLoaded", function () {
         otherFunctionToRun;
     }
 
+    function toggleClassForID(id, class1, class2) {
+        let byID = getById(id);
+        if (byID.classList.contains(class1)) {
+            byID.classList.remove(class1);
+            byID.classList.add(class2);
+        } else if (byID.classList.contains(class2)) {
+            byID.classList.remove(class2);
+            byID.classList.add(class1);
+        }
+    }
+
     let arrayOfFileInputs = [
         getById("folderFileInput"),
         getById("adminFileInput")
@@ -540,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 let secondSplit = [];
 
                 function createSubArrays(arrayItem) {
-                    let subArray = arrayItem.split("aBopBamBoom");
+                    let subArray = arrayItem.split("|\\|");
 
                     function dateSieve(hours, startHour, endHour) {
                         let hoursAboveMin = (hours >= startHour);
@@ -601,15 +612,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         arrayOfInputs.forEach(parsingChain);
-
         arrayOfInputs.forEach(buildObject);
-        // setTimeout(function () {
-        //     console.log(arrayOfInputs);
-        // }, 5000);
         mergeArrays();
         finalArray.forEach(cleanAndEvaluateObjects);
         generateTable(finalArray);
-
+        getById("inputDiv").style.display = "none";
     }
 
     function buildInputsFromUpload(inputFileItem, inputFileIndex) {
@@ -626,10 +633,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 function splitEachItem(item, index) {
                     arrayOfFileInputs[inputFileIndex][index] = arrayOfFileInputs[inputFileIndex][index].split(",");
-                    arrayOfFileInputs[inputFileIndex][index] = arrayOfFileInputs[inputFileIndex][index].join("aBopBamBoom");
+                    arrayOfFileInputs[inputFileIndex][index] = arrayOfFileInputs[inputFileIndex][index].join("|\\|");
                 }
                 arrayOfFileInputs[inputFileIndex].forEach(splitEachItem);
                 arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].join("splitHere");
+                getById("adminHeading").innerHTML = "IMPORT FILE READY:"
+                toggleClassForID("adminSpreadsheetInput", "standby", "active");
+                getById("adminFileInput").style.display = "none";
                 getById("adminSpreadsheetInput").value = arrayOfFileInputs[inputFileIndex];
             } else if (testSlice === "<VFPData>") {
                 arrayOfFileInputs[inputFileIndex] = fileToText;
@@ -644,13 +654,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     xmlItemDataArray.forEach(function (item) {
                         dataFromXML.push(item.innerHTML);
                     });
-                    dataFromXML = dataFromXML.join("aBopBamBoom");
+                    dataFromXML = dataFromXML.join("|\\|");
                     arrayOfFileInputs[inputFileIndex][index] = dataFromXML;
                     dataFromXML = [];
                 }
                 arrayOfFileInputs[inputFileIndex].forEach(extractValuesFromXML);
                 arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].join("splitHere");
+                getById("adminHeading").innerHTML = "IMPORT FILE READY:"
+                toggleClassForID("folderSpreadsheetInput", "standby", "active");
+                getById("folderFileInput").style.display = "none";
                 getById("folderSpreadsheetInput").value = arrayOfFileInputs[inputFileIndex];
+                getById("specificValuesFieldsetToggle").style.display = "none";
             }
         }
         reader.readAsText(selectedFile, "UTF-8");
@@ -855,18 +869,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function toggleSettingsFieldset() {
         let settingsFieldset = getById("specificValues");
+        toggleClassForID("specificValues", "standby", "active");
         if (settingsFieldset.classList.contains("standby")) {
-            settingsFieldset.classList.remove("standby");
-            settingsFieldset.classList.add("active");
             getById("specificValuesFieldsetToggle").innerHTML = "HIDE SETTINGS";
         } else if (settingsFieldset.classList.contains("active")) {
-            settingsFieldset.classList.remove("active");
-            settingsFieldset.classList.add("standby");
             getById("specificValuesFieldsetToggle").innerHTML = "SHOW SETTINGS";
         }
     }
 
     whenClicked("parseFilesButton", function () {
+        getById("parseFilesButton").style.display = "none";
+        toggleClassForID("submitButton", "standby", "active");
+        toggleClassForID("importTimeSelect", "standby", "active");
         arrayOfFileInputs.forEach(buildInputsFromUpload);
     });
     whenClicked("submitButton", confirmBeforeRunning);

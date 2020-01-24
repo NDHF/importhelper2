@@ -13,39 +13,22 @@
 		<h1>IMPORT TOOLKIT</h1>
 	</header>
 
-	<div id="fixedDiv">
-	</div>
+	<button type="button" class="largeButton" id="specificValuesFieldsetToggle">&nbsp;SHOW SETTINGS&nbsp;</button>
 
 	<div id="importDiv" class="show">
 
 		<div id="inputDiv" class="active">
-
-			<input id="folderSpreadsheetInput" type="input" />
-			<input id="adminSpreadsheetInput"  type="input" />
  
-			<h3>SELECT FOLDER SPREADSHEET:</h3>
-			<input id="folderFileInput" type="file" />
+			<h3 id="folderHeading">SELECT FOLDER SPREADSHEET:</h3>
+			<input id="folderFileInput" class="active" type="file" />
+			<input class="stringInput standby" id="folderSpreadsheetInput" type="input" />
 
-			<h3>SELECT ADMIN SPREADSHEET:</h3>
-			<input id="adminFileInput" type="file" />
 
-			<br>
-			<br>
+			<h3 id="adminHeading">SELECT ADMIN SPREADSHEET:</h3>
+			<input id="adminFileInput" class="active" type="file" />
+			<input class="stringInput standby" id="adminSpreadsheetInput"  type="input" />
 
-			<fieldset id="importTimeSelect">
-				<legend><b>CHOOSE AN IMPORT TIME</b></legend>
-				<input type="radio" class="radioButton" name="whichImportTime" value="11"> 11 AM <br>
-				<input type="radio" class="radioButton" name="whichImportTime" value="13"> 1 PM <br>
-				<input type="radio" class="radioButton" name="whichImportTime" value="16"> 4 PM
-				<br>
-				<br>
-			</fieldset>
-
-			<button type="button" class="setupScreenButton" id="parseFilesButton">PARSE FILES</button>
-
-			<button type="button" class="setupScreenButton" id="submitButton">SUBMIT</button>
-
-			<button type="button" id="specificValuesFieldsetToggle">SHOW SETTINGS</button>
+			<button type="button" class="setupScreenButton largeButton" id="parseFilesButton">PARSE FILES</button>
 
 			<fieldset id="specificValues" class="standby">
 				<legend><b>SETTINGS</b></legend>
@@ -88,6 +71,18 @@
 				<textarea id="remainderOfUSInput" rows="5" cols="60"></textarea>
 				<button type="button" class="setupScreenButton" id="saveValuesButton">SAVE</button>
 			</fieldset>
+
+			<fieldset id="importTimeSelect" class="standby">
+				<legend><b>&nbsp;CHOOSE AN IMPORT TIME&nbsp;</b></legend>
+				<input type="radio" class="radioButton" name="whichImportTime" value="11"> 11 AM <br>
+				<input type="radio" class="radioButton" name="whichImportTime" value="13"> 1 PM <br>
+				<input type="radio" class="radioButton" name="whichImportTime" value="16"> 4 PM
+				<br>
+				<br>
+			</fieldset>
+
+			<button type="button" class="setupScreenButton largeButton standby" id="submitButton">SUBMIT</button>
+
 		</div>
 
 
