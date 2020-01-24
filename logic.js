@@ -522,7 +522,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function buildObjectDecisionTree(subArray, subArrayIndex) {
-                    if (subArray.length === 11) {
+                    if (subArray.length === 10) {
                         buildAdminArrayObject(subArray, subArrayIndex);
                     } else {
                         buildFolderArrayObject(subArray, subArrayIndex);
@@ -534,7 +534,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function parsingChain(inputElement, inputIndex) {
             function parseInput() {
-                // let sliced = stringified.slice(1, stringified.length - 1);
 
                 let firstSplit = inputElement.split("splitHere");
 
@@ -587,7 +586,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     function fixDatesCallLogic() {
                         if (subArray.length === 127) {
                             fixDates(32, true);
-                        } else if (subArray.length === 11) {
+                        } else if (subArray.length === 10) {
                             fixDates(1, false);
                         }
                     }
@@ -597,20 +596,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 arrayOfInputs[inputIndex] = secondSplit;
             }
             if (inputElement !== "") {
-                console.log("NOT EMPTY");
                 parseInput();
-            } else {
-                console.log("WE GOT A PROBLEM");
-            }
+            } 
         }
 
         arrayOfInputs.forEach(parsingChain);
-        console.log(arrayOfInputs);
-        // arrayOfInputs.forEach(buildObject);
-        // console.log(arrayOfInputs);
-        // mergeArrays();
-        // finalArray.forEach(cleanAndEvaluateObjects);
-        // generateTable(finalArray);
+
+        arrayOfInputs.forEach(buildObject);
+        // setTimeout(function () {
+        //     console.log(arrayOfInputs);
+        // }, 5000);
+        mergeArrays();
+        finalArray.forEach(cleanAndEvaluateObjects);
+        generateTable(finalArray);
 
     }
 
@@ -621,6 +619,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let fileToText = event.target.result;
             let testSlice = fileToText.slice(0, 9);
             if (testSlice === "\"Order #\"") {
+                fileToText = fileToText.replace(/, 20/g, " 20");
                 fileToText = fileToText.replace(/"/g, "");
                 arrayOfFileInputs[inputFileIndex] = fileToText.split("\n");
                 arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].slice(1, arrayOfFileInputs[inputFileIndex].length - 1);
