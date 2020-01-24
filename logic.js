@@ -886,9 +886,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let settingsFieldset = getById("specificValues");
         toggleClassForID("specificValues", "standby", "active");
         if (settingsFieldset.classList.contains("standby")) {
-            getById("specificValuesFieldsetToggle").innerHTML = "HIDE SETTINGS";
-        } else if (settingsFieldset.classList.contains("active")) {
             getById("specificValuesFieldsetToggle").innerHTML = "SHOW SETTINGS";
+        } else if (settingsFieldset.classList.contains("active")) {
+            getById("specificValuesFieldsetToggle").innerHTML = "HIDE SETTINGS";
         }
     }
 
