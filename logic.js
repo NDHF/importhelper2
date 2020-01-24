@@ -1,11 +1,12 @@
 console.log(
-    "THE IMPORT HELPER \n" +
+    "MOM'S LITTLE HELPER \n" +
     "By Nicholas Bernhard \n" +
-    "\u00A9 2019 \n" +
+    "\u00A9 2020 \n" +
     "VERSION 2.0 \n" +
     "IN DEVELOPMENT: NOT FOR USE \n" +
-    "UPDATES FROM 1.1: \n" +
-    "Take two spreadsheets and merges them."
+    "UPDATES FROM 1.4: \n" +
+    " * The program takes the bizsync spreadsheet and merges it with a Magento spreadsheet. \n" +
+    " * "
 );
 
 document.addEventListener("DOMContentLoaded", function () {
