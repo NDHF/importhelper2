@@ -10,8 +10,7 @@
 <body>
 
 	<header>
-		<h1>IMPORT TOOLKIT 2</h1>
-		<h3 id="numberOfResults"></h3>
+		<h1>XML TEST</h1>
 	</header>
 
 	<div id="importDiv" class="show">
@@ -38,94 +37,8 @@
 
 			<button type="button" id="submitButton">SUBMIT</button>
 
-			<fieldset id="specificValues">
-				<legend><b>SET VALUES:</b></legend>
-				<br>
-				<span>Company Name: </span><input type="input" id="companyNameInput" />
-				<br />
-				<br />
-				<span>MOM Folder Validation String: </span><input type="input" id="momValidationInput" />
-				<br />
-				<br />
-				<span>Magento Admin Folder Validation String: </span><input type="input" id="adminValidationInput" />
-				<br />
-				<br />
-				<span>Company IP Address: </span><input type="input" id="ipAddressInput" />
-				<br />
-				<br />
-				<span>Special Order Code: </span><input type="input" id="specialOrderCodeInput" />
-				<br />
-				<br />
-				<span>Special Labor Codes (separate with commas): </span>
-				<br />
-				<textarea id="specialLaborCodeInput" rows="5" cols="60"></textarea>
-				<br>
-				<br>
-				<span>States In One-Day Zone (separate with commas):</span>
-				<br>
-				<textarea id="oneDayZoneInput" rows="5" cols="60"></textarea>
-				<br>
-				<br>
-				<span>States In Two-Day Zone (separate with commas):</span>
-				<br>
-				<textarea id="twoDayZoneInput" rows="5" cols="60"></textarea>
-				<br>
-				<br>
-				<span>States Outside of Two-Day Zone (separate with commas):</span>
-				<br>
-				<textarea id="remainderOfUSInput" rows="5" cols="60"></textarea>
-			</fieldset>
-			<button type="button" id="saveValuesButton">SAVE</button>
-		</div>
 
-
-		<div id="messagesDiv" class="standby">
-			<div id="momMessageContainerDiv">
-				<div id="momMessageStartDiv">
-					<input type="input" size="28" class="momInput" id="momMessageStartInput" />
-					<span class="copiedMessage whiteText" id="copiedMessageForStart">Copied.</span>
-					<br>
-					<button type="button" class="momMessageButton" id="momMessageStartButton">GENERATE START
-						NOTIFICATION</button>
-				</div>
-				<div id="momMessageEndDiv">
-					<input type="input" size="26" class="momInput" id="momMessageEndInput" />
-					<span class="copiedMessage whiteText" id="copiedMessageForEnd">Copied.</span>
-					<br>
-					<button type="button" class="momMessageButton" id="momMessageEndButton">GENERATE END
-						NOTIFICATION</button>
-				</div>
-			</div>
-			<div id="mipDiv">
-				<h3>CLICK TO COPY.</h3>
-				<input type="input" size="30" class="momInput mip" id="mip1" value="MIP MIP MIP" />
-				<input type="input" size="30" class="momInput mip" id="mip2" value="MIP" />
-			</div>
-			<div id="calculatorDiv">
-				<h4 id="calculatorDivHeading">CALCULATE INSURANCE (2/3 OF WHOLESALE COST)</h4>
-				<div id="calculatorDivInputContainer">
-					<input type="number" size="10" id="insuranceCalcInput" />
-					<button type="button" id="insuranceCalcButton">CALCULATE</button>
-					<span id="copiedMessageForInsuranceCalc" class="copiedMessage whiteText">Copied.</span>
-				</div>
-			</div>
-		</div>
-
-		<div id="tableDiv">
-			<table id="resultsTable">
-				<tr id="tableHeaderRow"></tr>
-			</table>
-		</div>
-
-	</div>
-
-	<footer>
-		<span>The Import Toolkit. Version 2.0. In Development. Hit <code>Ctrl + Shift + i</code> to show version details.</span>
-	</footer>
-
-	<!-- <script src="specificValues-personal.js"></script> -->
 	<script src="logic_2.js"></script>
-	<!-- <script src="specificValues.js"></script> -->
 
 </body>
 

@@ -26,6 +26,14 @@ th, td {
     padding: 15px;
 }
 
+div#fixedDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 25%;
+    z-index: 500;
+}
+
 td:not(:last-child) {
     border-right: 1px solid black;
 }

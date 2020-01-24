@@ -30,9 +30,15 @@ document.addEventListener("DOMContentLoaded", function () {
         otherFunctionToRun;
     }
 
+    let arrayOfFileInputs = [
+        getById("folderFileInput"),
+        getById("adminFileInput")
+    ];
+
     // QUALITY-OF-LIFE FUNCTIONS END
 
     function masterParsingLogic() {
+
         let arrayOfInputs = [
             getById("folderSpreadsheetInput").value,
             getById("adminSpreadsheetInput").value
@@ -528,13 +534,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function parsingChain(inputElement, inputIndex) {
             function parseInput() {
-                let stringified = JSON.stringify(inputElement);
-                let sliced = stringified.slice(1, stringified.length - 1);
-                let firstSplit = sliced.split("splitHere");
+                // let sliced = stringified.slice(1, stringified.length - 1);
+
+                let firstSplit = inputElement.split("splitHere");
+
                 let secondSplit = [];
 
                 function createSubArrays(arrayItem) {
-                    let subArray = arrayItem.split("\\t");
+                    let subArray = arrayItem.split("aBopBamBoom");
 
                     function dateSieve(hours, startHour, endHour) {
                         let hoursAboveMin = (hours >= startHour);
@@ -590,56 +597,64 @@ document.addEventListener("DOMContentLoaded", function () {
                 arrayOfInputs[inputIndex] = secondSplit;
             }
             if (inputElement !== "") {
+                console.log("NOT EMPTY");
                 parseInput();
+            } else {
+                console.log("WE GOT A PROBLEM");
             }
         }
 
-        function terminateProgram(message) {
-
-        }
-
-        function validateInputBeforeRunning() {
-
-            let folderArray = arrayOfInputs[0];
-            let adminArray = arrayOfInputs[1];
-
-            let folderArrayValidationString = specificValues.momFolderValidationString;
-            let adminArrayValidationString = specificValues.adminFolderValidationString;
-
-            let folderValStrLength = folderArrayValidationString.length;
-            let adminValStrLength = adminArrayValidationString.length;
-
-            // We will check the validation strings against these slices of
-            // the original arrays.  
-
-            let folderArrStrCheck = folderArray.slice(0, folderValStrLength);
-            let adminArrStrCheck = adminArray.slice(0, adminValStrLength);
-
-            // Folder mismatch
-            // Admin mismatch
-            // Mismatch on both
-            // Both are missing
-
-            function validationLogic() {
-                let folderArrMissing = (folderArray === "");
-                let adminArrMissing = (adminArray === "");
-                let bothArraysMissing = (folderArrMissing && adminArrMissing);
-                let folderMismatch = (folderArrStrCheck !== folderArrayValidationString);
-                let adminMismatch = (adminArrStrCheck !== adminArrayValidationString);
-                let mismatchOnBothArrays = (folderMismatch && adminMismatch);
-                let atLeastOneMismatch = (folderMismatch || adminMismatch);
-
-            }
-
-            validationLogic();
-
-        }
-        // validateInputBeforeRunning();
         arrayOfInputs.forEach(parsingChain);
-        arrayOfInputs.forEach(buildObject);
-        mergeArrays();
-        finalArray.forEach(cleanAndEvaluateObjects);
-        generateTable(finalArray);
+        console.log(arrayOfInputs);
+        // arrayOfInputs.forEach(buildObject);
+        // console.log(arrayOfInputs);
+        // mergeArrays();
+        // finalArray.forEach(cleanAndEvaluateObjects);
+        // generateTable(finalArray);
+
+    }
+
+    function buildInputsFromUpload(inputFileItem, inputFileIndex) {
+        let selectedFile = inputFileItem.files[0];
+        let reader = new FileReader();
+        reader.onloadend = function (event) {
+            let fileToText = event.target.result;
+            let testSlice = fileToText.slice(0, 9);
+            if (testSlice === "\"Order #\"") {
+                fileToText = fileToText.replace(/"/g, "");
+                arrayOfFileInputs[inputFileIndex] = fileToText.split("\n");
+                arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].slice(1, arrayOfFileInputs[inputFileIndex].length - 1);
+
+                function splitEachItem(item, index) {
+                    arrayOfFileInputs[inputFileIndex][index] = arrayOfFileInputs[inputFileIndex][index].split(",");
+                    arrayOfFileInputs[inputFileIndex][index] = arrayOfFileInputs[inputFileIndex][index].join("aBopBamBoom");
+                }
+                arrayOfFileInputs[inputFileIndex].forEach(splitEachItem);
+                arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].join("splitHere");
+                getById("adminSpreadsheetInput").value = arrayOfFileInputs[inputFileIndex];
+            } else if (testSlice === "<VFPData>") {
+                arrayOfFileInputs[inputFileIndex] = fileToText;
+                parser = new DOMParser();
+                xmlDoc = parser.parseFromString(arrayOfFileInputs[inputFileIndex], "text/xml");
+                let startingXMLData = xmlDoc.getElementsByTagName("VFPData")[0].children;
+                arrayOfFileInputs[inputFileIndex] = Array.from(xmlDoc.getElementsByTagName("VFPData")[0].children);
+                let dataFromXML = [];
+
+                function extractValuesFromXML(item, index) {
+                    let xmlItemDataArray = Array.from(startingXMLData[index].children);
+                    xmlItemDataArray.forEach(function (item) {
+                        dataFromXML.push(item.innerHTML);
+                    });
+                    dataFromXML = dataFromXML.join("aBopBamBoom");
+                    arrayOfFileInputs[inputFileIndex][index] = dataFromXML;
+                    dataFromXML = [];
+                }
+                arrayOfFileInputs[inputFileIndex].forEach(extractValuesFromXML);
+                arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].join("splitHere");
+                getById("folderSpreadsheetInput").value = arrayOfFileInputs[inputFileIndex];
+            }
+        }
+        reader.readAsText(selectedFile, "UTF-8");
     }
 
     function generateMessages() {
@@ -852,6 +867,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    whenClicked("parseFilesButton", function () {
+        arrayOfFileInputs.forEach(buildInputsFromUpload);
+    });
     whenClicked("submitButton", confirmBeforeRunning);
     whenClicked("insuranceCalcButton", calculateInsurance);
     whenClicked("saveValuesButton", saveValues);

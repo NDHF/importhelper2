@@ -13,15 +13,21 @@
 		<h1>IMPORT TOOLKIT</h1>
 	</header>
 
+	<div id="fixedDiv">
+	</div>
+
 	<div id="importDiv" class="show">
 
 		<div id="inputDiv" class="active">
 
-			<h3>PASTE FOLDER SPREADSHEET BELOW:</h3>
 			<input id="folderSpreadsheetInput" type="input" />
+			<input id="adminSpreadsheetInput"  type="input" />
+ 
+			<h3>SELECT FOLDER SPREADSHEET:</h3>
+			<input id="folderFileInput" type="file" />
 
-			<h3>PASTE ADMIN SPREADSHEET BELOW:</h3>
-			<input id="adminSpreadsheetInput" type="input" />
+			<h3>SELECT ADMIN SPREADSHEET:</h3>
+			<input id="adminFileInput" type="file" />
 
 			<br>
 			<br>
@@ -34,6 +40,8 @@
 				<br>
 				<br>
 			</fieldset>
+
+			<button type="button" class="setupScreenButton" id="parseFilesButton">PARSEFILES</button>
 
 			<button type="button" class="setupScreenButton" id="submitButton">SUBMIT</button>
 
