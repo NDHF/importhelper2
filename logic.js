@@ -892,6 +892,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    function loadSettingsFromString() {
+        let enterSettingsStringPrompt = prompt("Enter settings string:");
+        localStorage.setItem("importHelperValues", enterSettingsStringPrompt);
+        loadValues();
+    }
+
+    function exportSettingsToString() {
+        let textAreaForCopyingSettings = document.createElement("TEXTAREA");
+        textAreaForCopyingSettings.id = "textAreaForCopyingSettings";
+        getById("divForSettingsTextArea").appendChild(textAreaForCopyingSettings);
+        getById("textAreaForCopyingSettings").value = localStorage.getItem("importHelperValues");
+        getById("textAreaForCopyingSettings").select();
+        document.execCommand("copy");
+        getById("divForSettingsTextArea").removeChild(getById("divForSettingsTextArea").childNodes[0]);
+        alert("Check to see if it copied.");
+    }
+
     whenClicked("parseFilesButton", function () {
         getById("parseFilesButton").style.display = "none";
         toggleClassForID("submitButton", "standby", "active");
@@ -902,5 +919,7 @@ document.addEventListener("DOMContentLoaded", function () {
     whenClicked("insuranceCalcButton", calculateInsurance);
     whenClicked("saveValuesButton", saveValues);
     whenClicked("specificValuesFieldsetToggle", toggleSettingsFieldset);
+    whenClicked("loadSettingsButton", loadSettingsFromString);
+    whenClicked("exportSettingsButton", exportSettingsToString);
 
 });

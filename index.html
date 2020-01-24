@@ -76,6 +76,11 @@
 				<br>
 				<span>Fraud Risk Threshold: </span><input type="input" id="highRiskThresholdInput" />
 				<button type="button" class="setupScreenButton" id="saveValuesButton">SAVE</button>
+
+				<div id="loadAndExportContainer">
+					<button type="button" class="largeButton" id="loadSettingsButton">LOAD SETTINGS</button>
+					<button type="button" class="largeButton" id="exportSettingsButton">COPY SETTINGS TO CLIPBOARD</button>
+				</div>
 			</fieldset>
 
 			<fieldset id="importTimeSelect" class="standby">
@@ -140,6 +145,8 @@
 		</div>
 
 	</div>
+
+	<div id="divForSettingsTextArea"></div>
 
 	<footer>
 		<span>The Import Toolkit. Version 2.0. In Development. Hit <code>Ctrl + Shift + i</code> to show version
