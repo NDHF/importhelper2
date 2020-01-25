@@ -379,7 +379,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         }
 
-                        let outsideStates = ["HI", "AK", "PR"];
+                        let outsideStates = ["HI", "AK", "PR", "GU", "AS", "FM", "MH", "MP", "PW", "VI"];
 
                         function upsOutsideLower48Check() {
                             if (outsideStates.includes(finalArrayItem.state)) {
