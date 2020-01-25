@@ -1,5 +1,6 @@
 console.log(
-    "MOM'S LITTLE HELPER \n" +
+    "MOM'S LIL HELPER \n" +
+    "Local Intermediary Logic \n" +
     "By Nicholas Bernhard \n" +
     "\u00A9 2020 \n" +
     "VERSION 2.0 \n" +
