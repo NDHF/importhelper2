@@ -707,7 +707,7 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("inputDiv").style.display = "none";
     }
 
-    function buildInputsFromUpload(inputFileItem, inputFileIndex) {
+    function buildInputsFromUpload(inputFileItem, IFIndex) {
         let selectedFile = inputFileItem.files[0];
         let reader = new FileReader();
         reader.onloadend = function (event) {
@@ -716,29 +716,30 @@ document.addEventListener("DOMContentLoaded", function () {
             if (testSlice === "\"Order #\"") {
                 fileToText = fileToText.replace(/,\s20/g, "\s20");
                 fileToText = fileToText.replace(/"/g, "");
-                arrayOfFileInputs[inputFileIndex] = fileToText.split("\n");
-                let lengthMin1 = arrayOfFileInputs[inputFileIndex].length - 1;
-                let aofi = arrayOfFileInputs[inputFileIndex];
-                arrayOfFileInputs[inputFileIndex] = aofi.slice(1, lengthMin1);
+                arrayOfFileInputs[IFIndex] = fileToText.split("\n");
+                let lengthMin1 = arrayOfFileInputs[IFIndex].length - 1;
+                let aofi = arrayOfFileInputs[IFIndex];
+                arrayOfFileInputs[IFIndex] = aofi.slice(1, lengthMin1);
 
                 function splitEachItem(item, ind) {
-                    let s = arrayOfFileInputs[inputFileIndex][ind].split(",");
-                    let j = arrayOfFileInputs[inputFileIndex][ind].join("|\\|");
-                    arrayOfFileInputs[inputFileIndex][ind] = s;
-                    arrayOfFileInputs[inputFileIndex][ind] = j;
+                    let s = arrayOfFileInputs[IFIndex][ind].split(",");
+                    let j = arrayOfFileInputs[IFIndex][ind].join("|\\|");
+                    arrayOfFileInputs[IFIndex][ind] = s;
+                    arrayOfFileInputs[IFIndex][ind] = j;
                 }
-                arrayOfFileInputs[inputFileIndex].forEach(splitEachItem);
-                arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].join("splitHere");
+                arrayOfFileInputs[IFIndex].forEach(splitEachItem);
+                let splitHereCSV = arrayOfFileInputs[IFIndex].join("splitHere");
+                arrayOfFileInputs[IFIndex] = splitHereCSV;
                 getById("adminHeading").innerHTML = "IMPORT FILE READY:";
                 toggleClassForID("adminSpreadsheetInput", "standby", "active");
                 getById("adminFileInput").style.display = "none";
-                getById("adminSpreadsheetInput").value = arrayOfFileInputs[inputFileIndex];
+                getById("adminSpreadsheetInput").value = arrayOfFileInputs[IFIndex];
             } else if (testSlice === "<VFPData>") {
-                arrayOfFileInputs[inputFileIndex] = fileToText;
+                arrayOfFileInputs[IFIndex] = fileToText;
                 let parser = new DOMParser();
-                let xmlDoc = parser.parseFromString(arrayOfFileInputs[inputFileIndex], "text/xml");
+                let xmlDoc = parser.parseFromString(arrayOfFileInputs[IFIndex], "text/xml");
                 let startingXMLData = xmlDoc.getElementsByTagName("VFPData")[0].children;
-                arrayOfFileInputs[inputFileIndex] = Array.from(xmlDoc.getElementsByTagName("VFPData")[0].children);
+                arrayOfFileInputs[IFIndex] = Array.from(xmlDoc.getElementsByTagName("VFPData")[0].children);
                 let dataFromXML = [];
 
                 function extractValuesFromXML(item, index) {
@@ -747,15 +748,17 @@ document.addEventListener("DOMContentLoaded", function () {
                         dataFromXML.push(item.innerHTML);
                     });
                     dataFromXML = dataFromXML.join("|\\|");
-                    arrayOfFileInputs[inputFileIndex][index] = dataFromXML;
+                    arrayOfFileInputs[IFIndex][index] = dataFromXML;
                     dataFromXML = [];
                 }
-                arrayOfFileInputs[inputFileIndex].forEach(extractValuesFromXML);
-                arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].join("splitHere");
+                arrayOfFileInputs[IFIndex].forEach(extractValuesFromXML);
+                let splitHereXML = arrayOfFileInputs[IFIndex].join("splitHere");
+                arrayOfFileInputs[IFIndex] = splitHereXML;
                 getById("adminHeading").innerHTML = "IMPORT FILE READY:";
-                toggleClassForID("folderSpreadsheetInput", "standby", "active");
+                let fsi = "folderSpreadsheetInput";
+                toggleClassForID(fsi, "standby", "active");
                 getById("folderFileInput").style.display = "none";
-                getById("folderSpreadsheetInput").value = arrayOfFileInputs[inputFileIndex];
+                getById(fsi).value = arrayOfFileInputs[IFIndex];
                 getById("specificValuesFieldsetToggle").style.display = "none";
             }
         };
