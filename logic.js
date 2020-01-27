@@ -6,7 +6,8 @@ console.log(
     "VERSION 2.0 \n" +
     "IN DEVELOPMENT: NOT FOR USE \n" +
     "UPDATES FROM 1.4: \n" +
-    " * The program takes the bizsync spreadsheet and merges it with a Magento spreadsheet. \n" +
+    " * The program takes the bizsync spreadsheet " +
+    "and merges it with a Magento spreadsheet. \n" +
     " * "
 );
 
@@ -22,14 +23,22 @@ document.addEventListener("DOMContentLoaded", function () {
         return getById(id).addEventListener("click", functionToRun);
     }
 
-    function makeANode(element, elementContent, idOfElementToAppendTo, elementID, otherFunctionToRun) {
-        let newElement = document.createElement(element);
-        newElement.id = elementID;
-        let newElementContent = document.createTextNode(elementContent);
-        let elementToAppendTo = getById(idOfElementToAppendTo);
+    /*
+        el = element
+        elC = elementContent
+        idOfEl = idOfElementToAppendTo
+        elID = elementID
+        otherFunc = otherFunctionToRun
+    */
+
+    function makeANode(el, elC, idOfEl, elID, otherFunc) {
+        let newElement = document.createElement(el);
+        newElement.id = elID;
+        let newElementContent = document.createTextNode(elC);
+        let elementToAppendTo = getById(idOfEl);
         newElement.appendChild(newElementContent);
         elementToAppendTo.appendChild(newElement);
-        otherFunctionToRun;
+        otherFunc;
     }
 
     function toggleClassForID(id, class1, class2) {
@@ -124,7 +133,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let firstItemOfFinalArray = finalArray[0];
 
             function appendTH(propertiesForTableItem) {
-                if (firstItemOfFinalArray[propertiesForTableItem.name] !== undefined) {
+                if (firstItemOfFinalArray[propertiesForTableItem.name] !==
+                    undefined) {
                     makeANode("TH", propertiesForTableItem.heading, "tableHeaderRow");
                 }
             }
@@ -134,7 +144,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 makeANode("TR", "", "resultsTable", ("tableRow" + (index + 1)));
 
                 function makeTableRowContent(propertiesForTableItem) {
-                    if (firstItemOfFinalArray[propertiesForTableItem.name] !== undefined) {
+                    if (firstItemOfFinalArray[propertiesForTableItem.name] !==
+                        undefined) {
                         if (propertiesForTableItem.name === "alertArray") {
                             makeANode("TD", "", ("tableRow" + (index + 1)), ("alertArray" + (index + 1)));
 
@@ -172,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
             finalArray.forEach(appendRows);
 
             function displayNumberOfOrders() {
-                let randomMessagesArray = [
+                let msgArr = [
                     "Gentlemen, start your engines.",
                     "Let's do this.",
                     "Just like old times...",
@@ -183,12 +194,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     "It's on now...",
                     "It would seem your hour has... come again..."
                 ];
-                let numberOfResults = (getById("resultsTable").children.length - 1);
-                let randomMessage = randomMessagesArray[Math.floor(Math.random() * randomMessagesArray.length)];
-                alert("Now working with " + numberOfResults + " orders. " + randomMessage);
+                let numOfRes = (getById("resultsTable").children.length - 1);
+                let randMsg = msgArr[Math.floor(Math.random() * msgArr.length)];
+                alert("Now working with " + numOfRes + " orders. " + randMsg);
             }
             displayNumberOfOrders();
-        };
+        }
 
         function cleanAndEvaluateObjects(finalArrayItem, finalArrayIndex) {
             function cleanUpObject() {
@@ -198,7 +209,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     finalArrayItem.orderTotal = parseFloat(noCommas);
                 }
                 if (finalArrayItem.shippingCost !== undefined) {
-                    finalArrayItem.shippingCost = parseFloat(finalArrayItem.shippingCost);
+                    let shippingToInt = parseFloat(finalArrayItem.shippingCost);
+                    finalArrayItem.shippingCost = shippingToInt;
                 }
 
                 function parseFraudRiskScore() {
@@ -230,13 +242,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (finalArrayItem.shippingName !== undefined) {
                             finalArrayItemName = finalArrayItem.shippingName;
                         } else {
-                            finalArrayItemName = finalArrayItem.firstName + " " + finalArrayItem.lastName;
+                            finalArrayItemName = finalArrayItem.firstName +
+                                " " + finalArrayItem.lastName;
                         }
                         if (duplicateCheckArray.includes(finalArrayItemName)) {
                             finalArrayItem.nameAlreadyExists = true;
-                            finalArrayItem.alertArray.push("An earlier order with " +
+                            finalArrayItem.alertArray.push(
+                                "An earlier order with " +
                                 "the name ***" + finalArrayItemName +
-                                "*** exists. " + "Check to see if these orders " +
+                                "*** exists. " +
+                                "Check to see if these orders " +
                                 "can be combined.");
                         } else {
                             finalArrayItem.nameAlreadyExists = false;
@@ -246,7 +261,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function checkForHighRiskOrder() {
-                    if (finalArrayItem.fraudRiskString >= specificValues.highRiskThreshold) {
+                    if (finalArrayItem.fraudRiskString >=
+                        specificValues.highRiskThreshold) {
                         finalArrayItem.highRiskOrder = true;
                         finalArrayItem.alertArray.push("High fraud risk.");
                         activateAlertStatus();
@@ -258,7 +274,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 function checkForSignatureRequired() {
                     if (finalArrayItem.orderTotal >= 200) {
                         finalArrayItem.signatureRequired = true;
-                        finalArrayItem.alertArray.push("Signature may be required. Invesitgate further.");
+                        finalArrayItem.alertArray.push("Signature may be " +
+                            "required. Invesitgate further.");
                         activateAlertStatus();
                     } else {
                         finalArrayItem.signatureRequired = false;
@@ -268,7 +285,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 function checkIfInsuranceRequired() {
                     if (finalArrayItem.orderTotal >= 500) {
                         finalArrayItem.insuranceRequired = true;
-                        finalArrayItem.alertArray.push("Insurance may be required. Investigate further.");
+                        finalArrayItem.alertArray.push("Insurance may be " +
+                            "required. Investigate further.");
                         activateAlertStatus();
                     } else {
                         finalArrayItem.insuranceRequired = false;
@@ -276,7 +294,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function checkForHighValueOrder() {
-                    if (finalArrayItem.orderTotal >= specificValues.highValueOrderThreshold) {
+                    if (finalArrayItem.orderTotal >=
+                        specificValues.highValueOrderThreshold) {
                         finalArrayItem.highValueOrder = true;
                         finalArrayItem.alertArray.push("High-value order.");
                         activateAlertStatus();
@@ -284,25 +303,31 @@ document.addEventListener("DOMContentLoaded", function () {
                         finalArrayItem.highValueOrder = false;
                     }
                 }
-                
+
                 function checkForHighRiskANDHighValue() {
                     if ((finalArrayItem.highValueOrder === true) &&
-                    (finalArrayItem.highRiskOrder === true)) {
+                        (finalArrayItem.highRiskOrder === true)) {
                         finalArrayItem.highRiskANDHighValue = true;
-                        let highRiskANDHighValueMessage = "DANGER: This order meets or exceeds the threshold for " +
-                        "a high-risk order AND a high-value order. Please check the order in Magento " +
-                        "to see if the billing address and shipping adress match, otherwise you may not be protected."; 
-                        finalArrayItem.alertArray.push(highRiskANDHighValueMessage);
+                        let highRiskANDHighValMsg = "DANGER: " +
+                            "This order meets or exceeds the threshold for " +
+                            "a high-risk order AND a high-value order. " +
+                            "Please check the order in Magento " +
+                            "to see if the billing address and " +
+                            "shipping adress match, otherwise " +
+                            "you may not be protected.";
+                        finalArrayItem.alertArray.push(highRiskANDHighValMsg);
                     }
                 }
 
                 function validateIPAddress() {
                     let ourIPAddress = specificValues.companyIPAddress;
                     let noIPAddress = "";
-                    let ipMatches1 = (finalArrayItem.ipAddress === ourIPAddress);
+                    let ipMatches1 = (finalArrayItem.ipAddress ===
+                        ourIPAddress);
                     let ipMatches2 = (finalArrayItem.ipAddress === noIPAddress);
                     let ipMatchConfirmed = (ipMatches1 || ipMatches2);
-                    if ((finalArrayItem.ipAddress !== undefined) && ipMatchConfirmed) {
+                    if ((finalArrayItem.ipAddress !== undefined) &&
+                        ipMatchConfirmed) {
                         finalArrayItem.ipMatch = true;
                     } else {
                         finalArrayItem.ipMatch = false;
@@ -310,45 +335,56 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function checkForHighValueAndIPMatch() {
-                    let orderIsHighValue = (finalArrayItem.highValueOrder === true);
+                    let orderIsHighValue = (finalArrayItem.highValueOrder ===
+                        true);
                     let orderIPMatches = (finalArrayItem.ipMatch === true);
-                    let orderIsHighRisk = (finalArrayItem.highRiskOrder === true);
-                    let riskyOrderButMadeByUs = ((orderIsHighValue || orderIsHighRisk) && orderIPMatches);
+                    let orderIsHighRisk = (finalArrayItem.highRiskOrder ===
+                        true);
+                    let riskyOrderButMadeByUs = ((orderIsHighValue ||
+                        orderIsHighRisk) && orderIPMatches);
                     if (riskyOrderButMadeByUs) {
                         finalArrayItem.riskyButIPMatches = true;
-                        finalArrayItem.alertArray.push("This order is considered risky, but was made by an employee.");
+                        finalArrayItem.alertArray.push("This order is " +
+                            "considered risky, but was made by an employee.");
                     } else {
                         finalArrayItem.riskyButIPMatches = false;
                     }
                 }
 
                 function checkForOneInPhoneNumber() {
-                    let firstDigitOfPhoneNumber = finalArrayItem.phoneNumber.charAt(0);
-                    let firstDigitIsOne = (firstDigitOfPhoneNumber === "1");
+                    let frstDgtOfPhoNum = finalArrayItem.phoneNumber.charAt(0);
+                    let firstDigitIsOne = (frstDgtOfPhoNum === "1");
                     if (firstDigitIsOne) {
-                        finalArrayItem.alertArray.push("WARNING: First digit of phone number is '1'. " +
-                            "Check Admin or MOM spreadsheet for correct phone number.");
+                        finalArrayItem.alertArray.push("WARNING: First digit " +
+                            "of phone number is '1'. Check Admin or " +
+                            "MOM spreadsheet for correct phone number.");
                         activateAlertStatus();
                     }
                 }
 
                 function evaluateShipVia() {
                     function checkForPOBox() {
-                        let lowerCaseAddress = finalArrayItem.address.toLowerCase();
-                        let addressIsProbablyPOBox = (lowerCaseAddress.includes("box"));
-                        let shipViaIsUSPS = ((finalArrayItem.shipVia === "PM") || (finalArrayItem.shipVia === "FC"));
+                        let lwrCsAddr = finalArrayItem.address.toLowerCase();
+                        let addrIsProbablyPOBox = (lwrCsAddr.includes("box"));
+                        let shipViaIsUSPS = ((finalArrayItem.shipVia ===
+                            "PM") || (finalArrayItem.shipVia === "FC"));
                         let shipViaIsNOTUSPS = (!shipViaIsUSPS);
-                        if (addressIsProbablyPOBox && shipViaIsNOTUSPS) {
-                            finalArrayItem.alertArray.push("You will probably need to change shipping method to United States Postal Service.");
+                        if (addrIsProbablyPOBox && shipViaIsNOTUSPS) {
+                            finalArrayItem.alertArray.push(
+                                "You will probably need to change shipping " +
+                                "method to United States Postal Service.");
                             activateAlertStatus();
                         }
                     }
 
                     function checkForCommercialAddress() {
-                        let probablyCommercialAddress = (finalArrayItem.company !== "");
+                        let probablyCommAddr = (finalArrayItem.company !== "");
                         let shipViaIsUPR = (finalArrayItem.shipVia === "UPR");
-                        if (probablyCommercialAddress && shipViaIsUPR) {
-                            finalArrayItem.alertArray.push("Possible commercial address. This order's shipping method might need to be updated to UPC.");
+                        if (probablyCommAddr && shipViaIsUPR) {
+                            finalArrayItem.alertArray.push(
+                                "Possible commercial address. This order's " +
+                                "shipping method might need to be updated " +
+                                "to UPC.");
                             activateAlertStatus();
                         }
                     }
@@ -361,44 +397,66 @@ document.addEventListener("DOMContentLoaded", function () {
                         let twoDayAir = (finalArrayItem.shipVia === "U2R");
                         let threeDayAir = (finalArrayItem.shipVia === "U3R");
                         let twoOrThreeDayShipping = (twoDayAir || threeDayAir);
-                        let oneTwoOrThreeDayShipping = (twoOrThreeDayShipping || overnightShipping);
+                        let oneTwoOrThreeDayShipping = (twoOrThreeDayShipping ||
+                            overnightShipping);
 
                         function oneDayZoneCheck(oneDayState) {
-                            if (oneTwoOrThreeDayShipping && (finalArrayItem.state === oneDayState)) {
+                            if (oneTwoOrThreeDayShipping &&
+                                (finalArrayItem.state === oneDayState)) {
                                 finalArrayItem.shippingAlert = true;
-                                finalArrayItem.alertArray.push("Expedited shipping. Address might be inside one-day zone.");
+                                finalArrayItem.alertArray.push(
+                                    "Expedited shipping. Address might be " +
+                                    "inside one-day zone.");
                                 activateAlertStatus();
                             }
                         }
-                        let twoDayZone = oneDayZone.concat(specificValues.twoDayZoneArray);
+                        let tdzArr = specificValues.twoDayZoneArray;
+                        let twoDayZone = oneDayZone.concat(tdzArr);
 
                         function twoDayZoneCheck(twoDayState) {
-                            if (twoOrThreeDayShipping && (finalArrayItem.state === twoDayState)) {
+                            if (twoOrThreeDayShipping &&
+                                (finalArrayItem.state === twoDayState)) {
                                 finalArrayItem.shippingAlert = true;
-                                finalArrayItem.alertArray.push("Expedited shipping. Address might be inside two-day zone.");
+                                finalArrayItem.alertArray.push(
+                                    "Expedited shipping. Address might be " +
+                                    "inside two-day zone.");
                                 activateAlertStatus();
                             }
                         }
 
-                        let outsideStates = ["HI", "AK", "PR", "GU", "AS", "FM", "MH", "MP", "PW", "VI"];
+                        let outsideStates = [
+                            "HI", "AK", "PR", "GU", "AS",
+                            "FM", "MH", "MP", "PW", "VI"
+                        ];
 
                         function upsOutsideLower48Check() {
                             if (outsideStates.includes(finalArrayItem.state)) {
                                 finalArrayItem.shippingAlert = true;
-                                finalArrayItem.alertArray.push("Order is UPS, outside of lower 48 states. I suggest you update shipping to FC or PM");
+                                finalArrayItem.alertArray.push(
+                                    "Order is UPS, outside of " +
+                                    "lower 48 states. I suggest you update " +
+                                    "shipping to FC or PM");
                                 activateAlertStatus();
                             }
                         }
 
-                        let wholeUS = twoDayZone.concat(specificValues.restOfContiguousUS, outsideStates);
-                        let orderIsInUS = (wholeUS.includes(finalArrayItem.state));
+                        let contgUSFromStor = specificValues.restOfContiguousUS;
+
+                        let contgUS = twoDayZone.concat(contgUSFromStor);
+
+                        let wholeUS = contgUS.concat(outsideStates);
+                        let currentState = finalArrayItem.state;
+                        let orderIsInUS = (wholeUS.includes(currentState));
                         let orderIsNotInUS = (!orderIsInUS);
 
                         function checkForInternationalOrder() {
                             if (orderIsNotInUS) {
                                 finalArrayItem.shippingAlert = true;
-                                finalArrayItem.alertArray.push("This is likely an international order. I suggest you update shipping to MIP. " +
-                                    "IN ADDITION, check phone number in MOM for a '1' at the beginning.");
+                                finalArrayItem.alertArray.push("This is " +
+                                    "likely an international order. I suggest " +
+                                    "you update shipping to MIP. IN ADDITION, " +
+                                    "check phone number in MOM for a '1' " +
+                                    "at the beginning.");
                                 activateAlertStatus();
                             }
                         }
@@ -414,27 +472,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 function checkForLabor() {
                     if (finalArrayItem.labor === true) {
-                        finalArrayItem.alertArray.push("This order includes AT LEAST one labor.");
+                        finalArrayItem.alertArray.push("This order includes " +
+                            "AT LEAST one labor.");
                         activateAlertStatus();
                     }
                 }
 
                 function checkForSpecialPackingRequirement() {
                     if (finalArrayItem.specialPackingRequired === true) {
-                        finalArrayItem.alertArray.push("This order will require special packing. " +
-                            "Additional boxes may be required, or item might have shipping method restrictions.");
+                        finalArrayItem.alertArray.push("This order will " +
+                            "require special packing. Additional boxes may be " +
+                            "required, or item might have shipping method " +
+                            "restrictions.");
                     }
                 }
 
                 function checkForSpecialOrder() {
                     if (finalArrayItem.specialOrder === true) {
-                        finalArrayItem.alertArray.push("This order contains a special order. Please review order in admin and copy over to MOM instructions.");
+                        finalArrayItem.alertArray.push("This order contains " +
+                            "a special order. Please review order in admin " +
+                            " and copy over to MOM instructions.");
                         activateAlertStatus();
                     }
                 }
 
                 function runChecks() {
-                    checkIfNameAlreadyExists()
+                    checkIfNameAlreadyExists();
                     checkForHighRiskOrder();
                     checkForSignatureRequired();
                     checkIfInsuranceRequired();
@@ -466,15 +529,21 @@ document.addEventListener("DOMContentLoaded", function () {
             function coreMergeLogic() {
                 function loopThroughAdminArray(adminArrayItem) {
                     function loopThroughFolderArray(folderArrayItem) {
-                        let matchDetected = (adminArrayItem.orderNumber === folderArrayItem.orderNumber);
+                        let matchDetected = (adminArrayItem.orderNumber ===
+                            folderArrayItem.orderNumber);
                         if (matchDetected) {
-                            folderArrayItem.orderTotal = adminArrayItem.orderTotal;
-                            folderArrayItem.fraudRiskString = adminArrayItem.fraudRiskString;
-                            folderArrayItem.ipAddress = adminArrayItem.ipAddress;
+                            let matchPropArray = [
+                                "orderTotal", "fraudRiskString", "ipAddress"
+                            ];
+
+                            function loopMatchPropArray(item) {
+                                folderArrayItem[item] = adminArrayItem[item];
+                            }
+                            matchPropArray.forEach(loopMatchPropArray);
                             finalArray.push(folderArrayItem);
                         }
                     }
-                    arrayOfInputs[0].forEach(loopThroughFolderArray)
+                    arrayOfInputs[0].forEach(loopThroughFolderArray);
                 }
                 arrayOfInputs[1].forEach(loopThroughAdminArray);
             }
@@ -512,12 +581,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         fraudRiskString: subArray[8],
                         ipAddress: subArray[9],
                         alertArray: []
-                    }
+                    };
                     arrayOfInputs[arrayIndex][subArrayIndex] = adminArrayObject;
                 }
 
                 function buildFolderArrayObject(subArray, subArrayIndex) {
-                    let folderArrayObject = {
+                    let folderArrObj = {
                         shipVia: subArray[28],
                         orderNumber: subArray[33],
                         lastName: subArray[44],
@@ -531,19 +600,21 @@ document.addEventListener("DOMContentLoaded", function () {
                         phoneNumber: subArray[75],
                         alertArray: [],
                         shippingAlert: false
-                    }
+                    };
                     let laborCounter = 0;
-                    specificValues.specialLaborCodes.forEach(function (laborArrayItem) {
+
+                    function laborArrayLoop(laborArrayItem) {
                         if (subArray.includes(laborArrayItem)) {
-                            laborCounter++;
+                            laborCounter = laborCounter + 1;
                         }
-                    });
-                    if (laborCounter > 0) {
-                        folderArrayObject.labor = true;
-                    } else {
-                        folderArrayObject.labor = false;
                     }
-                    arrayOfInputs[arrayIndex][subArrayIndex] = folderArrayObject;
+                    specificValues.specialLaborCodes.forEach(laborArrayLoop);
+                    if (laborCounter > 0) {
+                        folderArrObj.labor = true;
+                    } else {
+                        folderArrObj.labor = false;
+                    }
+                    arrayOfInputs[arrayIndex][subArrayIndex] = folderArrObj;
                 }
 
                 function buildObjectDecisionTree(subArray, subArrayIndex) {
@@ -583,7 +654,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             if (subArray[31] !== "X") {
                                 secondSplit.push(subArray);
                             } else if (subArray[31] === "X") {
-                                secondSplit[secondSplit.length - 1] = secondSplit[secondSplit.length - 1].concat(subArray);
+                                let lMin1 = secondSplit.length - 1;
+                                let sa = subArray;
+                                let combined = secondSplit[lMin1].concat(sa);
+                                secondSplit[lMin1] = combined;
                             }
                         }
                     }
@@ -622,7 +696,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             if (inputElement !== "") {
                 parseInput();
-            } 
+            }
         }
 
         arrayOfInputs.forEach(parsingChain);
@@ -640,25 +714,29 @@ document.addEventListener("DOMContentLoaded", function () {
             let fileToText = event.target.result;
             let testSlice = fileToText.slice(0, 9);
             if (testSlice === "\"Order #\"") {
-                fileToText = fileToText.replace(/, 20/g, " 20");
+                fileToText = fileToText.replace(/,\s20/g, "\s20");
                 fileToText = fileToText.replace(/"/g, "");
                 arrayOfFileInputs[inputFileIndex] = fileToText.split("\n");
-                arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].slice(1, arrayOfFileInputs[inputFileIndex].length - 1);
+                let lengthMin1 = arrayOfFileInputs[inputFileIndex].length - 1;
+                let aofi = arrayOfFileInputs[inputFileIndex];
+                arrayOfFileInputs[inputFileIndex] = aofi.slice(1, lengthMin1);
 
-                function splitEachItem(item, index) {
-                    arrayOfFileInputs[inputFileIndex][index] = arrayOfFileInputs[inputFileIndex][index].split(",");
-                    arrayOfFileInputs[inputFileIndex][index] = arrayOfFileInputs[inputFileIndex][index].join("|\\|");
+                function splitEachItem(item, ind) {
+                    let s = arrayOfFileInputs[inputFileIndex][ind].split(",");
+                    let j = arrayOfFileInputs[inputFileIndex][ind].join("|\\|");
+                    arrayOfFileInputs[inputFileIndex][ind] = s;
+                    arrayOfFileInputs[inputFileIndex][ind] = j;
                 }
                 arrayOfFileInputs[inputFileIndex].forEach(splitEachItem);
                 arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].join("splitHere");
-                getById("adminHeading").innerHTML = "IMPORT FILE READY:"
+                getById("adminHeading").innerHTML = "IMPORT FILE READY:";
                 toggleClassForID("adminSpreadsheetInput", "standby", "active");
                 getById("adminFileInput").style.display = "none";
                 getById("adminSpreadsheetInput").value = arrayOfFileInputs[inputFileIndex];
             } else if (testSlice === "<VFPData>") {
                 arrayOfFileInputs[inputFileIndex] = fileToText;
-                parser = new DOMParser();
-                xmlDoc = parser.parseFromString(arrayOfFileInputs[inputFileIndex], "text/xml");
+                let parser = new DOMParser();
+                let xmlDoc = parser.parseFromString(arrayOfFileInputs[inputFileIndex], "text/xml");
                 let startingXMLData = xmlDoc.getElementsByTagName("VFPData")[0].children;
                 arrayOfFileInputs[inputFileIndex] = Array.from(xmlDoc.getElementsByTagName("VFPData")[0].children);
                 let dataFromXML = [];
@@ -674,13 +752,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 arrayOfFileInputs[inputFileIndex].forEach(extractValuesFromXML);
                 arrayOfFileInputs[inputFileIndex] = arrayOfFileInputs[inputFileIndex].join("splitHere");
-                getById("adminHeading").innerHTML = "IMPORT FILE READY:"
+                getById("adminHeading").innerHTML = "IMPORT FILE READY:";
                 toggleClassForID("folderSpreadsheetInput", "standby", "active");
                 getById("folderFileInput").style.display = "none";
                 getById("folderSpreadsheetInput").value = arrayOfFileInputs[inputFileIndex];
                 getById("specificValuesFieldsetToggle").style.display = "none";
             }
-        }
+        };
         reader.readAsText(selectedFile, "UTF-8");
     }
 
@@ -689,30 +767,35 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("messagesDiv").classList.add("active");
         getById("inputDiv").classList.remove("active");
         getById("inputDiv").classList.add("standby");
-        //  FUNCTIONS FOR GENERATING MOM MESSAGES		
+        //  FUNCTIONS FOR GENERATING MOM MESSAGES
         function generateMOMMessage(startOrEnd) {
             let time;
 
             function generateOutput() {
-                let message;
+                let message = "";
+                let momMessageStart = getById("momMessageStartInput");
+                let startMessage = getById("copiedMessageForStart");
+                let momMessageEnd = getById("momMessageEndInput");
+                let endMessage = getById("copiedMessageForEnd");
                 if (startOrEnd === "start") {
-                    getById("momMessageStartInput").classList.remove("black");
-                    getById("momMessageStartInput").classList.remove("white");
+                    momMessageStart.classList.remove("black");
+                    momMessageStart.classList.remove("white");
                     message = specificValues.companyName + " Importing " + time;
-                    getById("momMessageStartInput").value = message;
-                    getById("momMessageStartInput").classList.add("white");
-                    getById("copiedMessageForStart").classList.remove("whiteText");
-                    getById("copiedMessageForStart").classList.remove("blackText");
-                    getById("copiedMessageForStart").classList.add("whiteText");
+                    momMessageStart.value = message;
+                    momMessageStart.classList.add("white");
+                    startMessage.classList.remove("whiteText");
+                    startMessage.classList.remove("blackText");
+                    startMessage.classList.add("whiteText");
                 } else if (startOrEnd === "end") {
-                    getById("momMessageEndInput").classList.remove("black");
-                    getById("momMessageEndInput").classList.remove("white");
-                    message = specificValues.companyName + " Import Complete " + time;
-                    getById("momMessageEndInput").value = message;
-                    getById("momMessageEndInput").classList.add("white");
-                    getById("copiedMessageForEnd").classList.remove("whiteText");
-                    getById("copiedMessageForEnd").classList.remove("blackText");
-                    getById("copiedMessageForEnd").classList.add("whiteText");
+                    momMessageEnd.classList.remove("black");
+                    momMessageEnd.classList.remove("white");
+                    message = specificValues.companyName +
+                        " Import Complete " + time;
+                    momMessageEnd.value = message;
+                    momMessageEnd.classList.add("white");
+                    endMessage.classList.remove("whiteText");
+                    endMessage.classList.remove("blackText");
+                    endMessage.classList.add("whiteText");
                 }
             }
 
@@ -769,7 +852,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 whenClicked(momInputItem.id, whatToDoWhenClicked);
             }
             momMessageInputArray.forEach(createListener);
-        };
+        }
         generateCopyListeners();
     }
 
@@ -777,21 +860,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function calculateInsurance() {
         let wholesaleCost = parseInt(getById("insuranceCalcInput").value);
-        // Insurance is 2/3 of wholesale cost, rounded up 
+        // Insurance is 2/3 of wholesale cost, rounded up
         // to the nearest hundred, minus one
         // For example, the insurance on $516 will be $399
         let twoThirdsOfWholesale = (wholesaleCost * (2 / 3));
-        let roundedUpToNearestHundred = Math.ceil(twoThirdsOfWholesale / 100) * 100;
-        getById("insuranceCalcInput").value = roundedUpToNearestHundred - 1;
-        getById("insuranceCalcInput").select();
-        document.execCommand('copy');
-        getById("copiedMessageForInsuranceCalc").classList.remove("whiteText");
-        getById("copiedMessageForInsuranceCalc").classList.add("blackText");
+        let insCalcInput = getById("insuranceCalcInput");
+        let insCalcMessage = getById("copiedMessageForInsuranceCalc");
+        let roundedUpToNearest100 = Math.ceil(twoThirdsOfWholesale / 100) * 100;
+        insCalcInput.value = roundedUpToNearest100 - 1;
+        insCalcInput.select();
+        document.execCommand("copy");
+        insCalcMessage.classList.remove("whiteText");
+        insCalcMessage.classList.add("blackText");
 
         function resetInsuranceCalc() {
-            getById("insuranceCalcInput").value = "";
-            getById("copiedMessageForInsuranceCalc").classList.remove("blackText");
-            getById("copiedMessageForInsuranceCalc").classList.add("whiteText");
+            insCalcInput.value = "";
+            insCalcMessage.classList.remove("blackText");
+            insCalcMessage.classList.add("whiteText");
         }
         setTimeout(resetInsuranceCalc, 5000);
     }
@@ -817,26 +902,99 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    let valueIDPairs = [{
+            elementID: "companyNameInput",
+            value: "companyName",
+            array: false
+        },
+        {
+            elementID: "momValidationInput",
+            value: "momFolderValidationString",
+            array: false
+        },
+        {
+            elementID: "adminValidationInput",
+            value: "adminFolderValidationString",
+            array: false
+        },
+        {
+            elementID: "alternateIDInput",
+            value: "alternateID",
+            array: false
+        },
+        {
+            elementID: "ipAddressInput",
+            value: "companyIPAddress",
+            array: false
+        },
+        {
+            elementID: "specialOrderCodeInput",
+            value: "specialOrderCode",
+            array: false
+        },
+        {
+            elementID: "specialLaborCodeInput",
+            value: "specialLaborCodes",
+            array: true
+        },
+        {
+            elementID: "oneDayZoneInput",
+            value: "oneDayZoneArray",
+            array: true
+        },
+        {
+            elementID: "twoDayZoneInput",
+            value: "twoDayZoneArray",
+            array: true
+        },
+        {
+            elementID: "remainderOfUSInput",
+            value: "restOfContiguousUS",
+            array: true
+        },
+        {
+            elementID: "highValueOrderThresholdInput",
+            value: "highValueOrderThreshold",
+            array: false
+        },
+        {
+            elementID: "highRiskThresholdInput",
+            value: "highRiskThreshold",
+            array: false
+        },
+        {
+            elementID: "alternateIDClickToCopy",
+            value: "alternateID",
+            array: false
+        }
+    ];
+
+    function pairElementWithSettingsValue(mode) {
+        function loopValueIDPairs(item) {
+            if (mode === "load") {
+                getById(item.elementID).value = specificValues[item.value];
+            } else if (mode === "save") {
+                if (item.array === true) {
+                    let spl = getById(item.elementID).split(",");
+                    specificValues[item.value] = spl;
+                } else if (item.array === false) {
+                    let elID = item.elementID;
+                    specificValues[item.value] = getById(elID);
+                }
+            }
+        }
+        valueIDPairs.forEach(loopValueIDPairs);
+    }
+
     function loadValues() {
-        if (localStorage.getItem("importHelperValues") === null) {
-            let noValuesMessage = "WARNING: No saved values detected. Load values before running the Import Helper";
+        let settingsValues = localStorage.getItem("importHelperValues");
+        if (settingsValues === null) {
+            let noValuesMessage = "WARNING: No saved values detected. " +
+                "Load values before running the Import Helper";
             alert(noValuesMessage);
         } else {
-            specificValues = JSON.parse(localStorage.getItem("importHelperValues"));
-
-            getById("companyNameInput").value = specificValues.companyName;
-            getById("momValidationInput").value = specificValues.momFolderValidationString;
-            getById("adminValidationInput").value = specificValues.adminFolderValidationString;
-            getById("alternateIDInput").value = specificValues.alternateID;
-            getById("ipAddressInput").value = specificValues.companyIPAddress;
-            getById("specialOrderCodeInput").value = specificValues.specialOrderCode;
-            getById("specialLaborCodeInput").value = specificValues.specialLaborCodes;
-            getById("oneDayZoneInput").value = specificValues.oneDayZoneArray;
-            getById("twoDayZoneInput").value = specificValues.twoDayZoneArray;
-            getById("remainderOfUSInput").value = specificValues.restOfContiguousUS;
-            getById("highValueOrderThresholdInput").value = specificValues.highValueOrderThreshold;
-            getById("highRiskThresholdInput").value = specificValues.highRiskThreshold;
-            getById("alternateIDClickToCopy").value = specificValues.alternateID;
+            specificValues = JSON.parse(settingsValues);
+            pairElementWithSettingsValue("load");
         }
     }
 
@@ -854,28 +1012,9 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function saveValues() {
-        specificValues.companyName = getById("companyNameInput").value;
-        specificValues.momFolderValidationString = getById("momValidationInput").value;
-        specificValues.adminFolderValidationString = getById("adminValidationInput").value;
-        specificValues.alternateID = getById("alternateIDInput").value;
-        specificValues.companyIPAddress = getById("ipAddressInput").value;
-        specificValues.specialOrderCode = getById("specialOrderCodeInput").value;
-        let laborCodesInput = getById("specialLaborCodeInput").value;
-        let laborCodesArray = laborCodesInput.split(",");
-        specificValues.specialLaborCodes = laborCodesArray;
-        let oneDayZoneInput = getById("oneDayZoneInput").value;
-        let oneDayZoneInputArray = oneDayZoneInput.split(",");
-        specificValues.oneDayZoneArray = oneDayZoneInputArray;
-        let twoDayZoneInput = getById("twoDayZoneInput").value;
-        let twoDayZoneInputArray = twoDayZoneInput.split(",");
-        specificValues.twoDayZoneArray = twoDayZoneInputArray;
-        let restOfUSInput = getById("remainderOfUSInput").value;
-        let restOfUSInputArray = restOfUSInput.split(",");
-        specificValues.restOfContiguousUS = restOfUSInputArray;
-        specificValues.highValueOrderThreshold = parseInt(getById("highValueOrderThresholdInput").value);
-        specificValues.highRiskThreshold = parseInt(getById("highRiskThresholdInput").value);
+        pairElementWithSettingsValue("save");
 
-        let specificValuesStringified = JSON.stringify(specificValues)
+        let specificValuesStringified = JSON.stringify(specificValues);
 
         localStorage.setItem("importHelperValues", specificValuesStringified);
 
@@ -901,13 +1040,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function exportSettingsToString() {
-        let textAreaForCopyingSettings = document.createElement("TEXTAREA");
-        textAreaForCopyingSettings.id = "textAreaForCopyingSettings";
-        getById("divForSettingsTextArea").appendChild(textAreaForCopyingSettings);
-        getById("textAreaForCopyingSettings").value = localStorage.getItem("importHelperValues");
-        getById("textAreaForCopyingSettings").select();
+        let settingsTxtArea = getById("divForSettingsTextArea");
+        let settingsExportOutput = document.createElement("TEXTAREA");
+        settingsExportOutput.id = "textAreaForCopyingSettings";
+        settingsTxtArea.appendChild(settingsExportOutput);
+        settingsExportOutput.value = localStorage.getItem("importHelperValues");
+        settingsExportOutput.select();
         document.execCommand("copy");
-        getById("divForSettingsTextArea").removeChild(getById("divForSettingsTextArea").childNodes[0]);
+        settingsTxtArea.removeChild(settingsTxtArea.childNodes[0]);
         alert("Check to see if it copied.");
     }
 
