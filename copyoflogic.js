@@ -1,19 +1,5 @@
-console.log(
-    "THE LIL HELPER \n" +
-    "Local Intermediary Logic \n" +
-    "By Nicholas Bernhard \n" +
-    "\u00A9 2020 \n" +
-    "VERSION 2.0 \n" +
-    "IN DEVELOPMENT: NOT FOR USE \n" +
-    "UPDATES FROM 1.4: \n" +
-    " * The program takes the bizsync spreadsheet " +
-    "and merges it with a Magento spreadsheet. \n" +
-    " * "
-);
-
 document.addEventListener("DOMContentLoaded", function () {
 
-    // QUALITY-OF-LIFE FUNCTIONS START
 
     function getById(id) {
         return document.getElementById(id);
@@ -22,14 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function whenClicked(id, functionToRun) {
         return getById(id).addEventListener("click", functionToRun);
     }
-
-    /*
-        el = element
-        elC = elementContent
-        idOfEl = idOfElementToAppendTo
-        elID = elementID
-        otherFunc = otherFunctionToRun
-    */
 
     function makeANode(el, elC, idOfEl, elID, otherFunc) {
         let newElement = document.createElement(el);
@@ -62,8 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
         alert(terminateProgramMessage);
         document.write("Program ended. Please reload the page.");
     }
-
-    // QUALITY-OF-LIFE FUNCTIONS END
 
     function masterParsingLogic() {
 
@@ -500,7 +476,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             "Additional boxes may be " +
                             "required, or item might have shipping method " +
                             "restrictions.");
-                            activateAlertStatus();
                     }
                 }
 
@@ -833,7 +808,6 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("messagesDiv").classList.add("active");
         getById("inputDiv").classList.remove("active");
         getById("inputDiv").classList.add("standby");
-        //  FUNCTIONS FOR GENERATING MOM MESSAGES
         function generateMOMMessage(startOrEnd) {
             let time;
 
@@ -922,13 +896,9 @@ document.addEventListener("DOMContentLoaded", function () {
         generateCopyListeners();
     }
 
-    // FUNCTION FOR CALCULATING INSURANCE
 
     function calculateInsurance() {
         let wholesaleCost = parseInt(getById("insuranceCalcInput").value);
-        // Insurance is 2/3 of wholesale cost, rounded up
-        // to the nearest hundred, minus one
-        // For example, the insurance on $516 will be $399
         let twoThirdsOfWholesale = (wholesaleCost * (2 / 3));
         let insCalcInput = getById("insuranceCalcInput");
         let insCalcMessage = getById("copiedMessageForInsuranceCalc");
