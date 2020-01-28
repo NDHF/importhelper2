@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (duplicateCheckArray.includes(finalArrayItemName)) {
                             finalArrayItem.nameAlreadyExists = true;
                             finalArrayItem.alertArray.push(
-                                "An earlier order with " +
+                                "Another order with " +
                                 "the name ***" + finalArrayItemName +
                                 "*** exists. " +
                                 "Check to see if these orders " +
@@ -719,7 +719,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function buildInputsFromUpload(inputFileItem, IFIndex) {
         let selectedFile = inputFileItem.files[0];
-        console.log(selectedFile);
         let reader = new FileReader();
 
         function splitEachItem(item, ind) {
@@ -731,51 +730,65 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.onloadend = function (event) {
             let fileToText = event.target.result;
             let testSlice = fileToText.slice(0, 9);
-            console.log("TEST SLICE: " + testSlice);
             if (testSlice === "\"Order #\"") {
-                fileToText = fileToText.replace(/,\s20/g, " 20");
-                fileToText = fileToText.replace(/"/g, "");
-                arrayOfFileInputs[IFIndex] = fileToText.split("\n");
-                let lengthMin1 = arrayOfFileInputs[IFIndex].length - 1;
-                let aofi = arrayOfFileInputs[IFIndex];
-                arrayOfFileInputs[IFIndex] = aofi.slice(1, lengthMin1);
-
-                arrayOfFileInputs[IFIndex].forEach(splitEachItem);
-                let splitHereCSV = arrayOfFileInputs[IFIndex].join("splitHere");
-                arrayOfFileInputs[IFIndex] = splitHereCSV;
-                getById("adminHeading").innerHTML = "IMPORT FILE READY:";
-                toggleClassForID("adminSpreadsheetInput", "standby", "active");
-                getById("adminFileInput").style.display = "none";
-                let adminSpreadsheetInput = getById("adminSpreadsheetInput");
-                adminSpreadsheetInput.value = arrayOfFileInputs[IFIndex];
+                if (IFIndex === 0) {
+                    terminateProgram("The Magento spreadsheet " +
+                    "is where the Bizsync spreadsheet should be.");
+                } else {
+                    fileToText = fileToText.replace(/,\s20/g, " 20");
+                    fileToText = fileToText.replace(/"/g, "");
+                    arrayOfFileInputs[IFIndex] = fileToText.split("\n");
+                    let lengthMin1 = arrayOfFileInputs[IFIndex].length - 1;
+                    let aofi = arrayOfFileInputs[IFIndex];
+                    arrayOfFileInputs[IFIndex] = aofi.slice(1, lengthMin1);
+    
+                    arrayOfFileInputs[IFIndex].forEach(splitEachItem);
+                    let sh = "splitHere";
+                    let splitHereCSV = arrayOfFileInputs[IFIndex].join(sh);
+                    arrayOfFileInputs[IFIndex] = splitHereCSV;
+                    getById("adminHeading").innerHTML = "IMPORT FILE READY:";
+                    let act = "active";
+                    toggleClassForID("adminSpreadsheetInput", "standby", act);
+                    getById("adminFileInput").style.display = "none";
+                    let adminSpreadsheetInp = getById("adminSpreadsheetInput");
+                    adminSpreadsheetInp.value = arrayOfFileInputs[IFIndex];
+                }
             } else if (testSlice === "<VFPData>") {
-                arrayOfFileInputs[IFIndex] = fileToText;
-                fileToText = arrayOfFileInputs[IFIndex];
-                let parser = new DOMParser();
-                let xmlDoc = parser.parseFromString(fileToText, "text/xml");
-                let start = xmlDoc.getElementsByTagName("VFPData")[0].children;
-                arrayOfFileInputs[IFIndex] = Array.from(start);
-
-                let extract = function (item, index) {
-                    let dataFromXML = [];
-                    let children = start[index].children;
-                    let xmlItemDataArray = Array.from(children);
-                    xmlItemDataArray.forEach(function (item) {
-                        dataFromXML.push(item.innerHTML);
-                    });
-                    dataFromXML = dataFromXML.join("|\\|");
-                    arrayOfFileInputs[IFIndex][index] = dataFromXML;
-                    dataFromXML = [];
-                };
-                arrayOfFileInputs[IFIndex].forEach(extract);
-                let splitHereXML = arrayOfFileInputs[IFIndex].join("splitHere");
-                arrayOfFileInputs[IFIndex] = splitHereXML;
-                getById("adminHeading").innerHTML = "IMPORT FILE READY:";
-                let fsi = "folderSpreadsheetInput";
-                toggleClassForID(fsi, "standby", "active");
-                getById("folderFileInput").style.display = "none";
-                getById(fsi).value = arrayOfFileInputs[IFIndex];
-                getById("specificValuesFieldsetToggle").style.display = "none";
+                if (IFIndex === 1) {
+                    terminateProgram("The Bizsync spreadsheet " +
+                    "is where the Magento spreadsheet should be.");
+                } else {
+                    arrayOfFileInputs[IFIndex] = fileToText;
+                    fileToText = arrayOfFileInputs[IFIndex];
+                    let parser = new DOMParser();
+                    let vfp = "VFPData";
+                    let xmlDoc = parser.parseFromString(fileToText, "text/xml");
+                    let start = xmlDoc.getElementsByTagName(vfp)[0].children;
+                    arrayOfFileInputs[IFIndex] = Array.from(start);
+    
+                    let extract = function (item, index) {
+                        let dataFromXML = [];
+                        let children = start[index].children;
+                        let xmlItemDataArray = Array.from(children);
+                        xmlItemDataArray.forEach(function (item) {
+                            dataFromXML.push(item.innerHTML);
+                        });
+                        dataFromXML = dataFromXML.join("|\\|");
+                        arrayOfFileInputs[IFIndex][index] = dataFromXML;
+                        dataFromXML = [];
+                    };
+                    arrayOfFileInputs[IFIndex].forEach(extract);
+                    let sh = "splitHere";
+                    let splitHereXML = arrayOfFileInputs[IFIndex].join(sh);
+                    arrayOfFileInputs[IFIndex] = splitHereXML;
+                    getById("adminHeading").innerHTML = "IMPORT FILE READY:";
+                    let fsi = "folderSpreadsheetInput";
+                    toggleClassForID(fsi, "standby", "active");
+                    getById("folderFileInput").style.display = "none";
+                    getById(fsi).value = arrayOfFileInputs[IFIndex];
+                    let sttngsButton = getById("specificValuesFieldsetToggle");
+                    sttngsButton.style.display = "none";
+                }   
             } else {
                 terminateProgram("LIL Helper does not recognize " +
                 "at least one of the files as valid input.");
