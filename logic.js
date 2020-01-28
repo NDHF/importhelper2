@@ -56,6 +56,13 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("adminFileInput")
     ];
 
+    function terminateProgram(errorDetails) {
+        let terminateProgramMessage = "The program has encountered " +
+        "an error. Details: " + errorDetails + " Program terminated.";
+        alert(terminateProgramMessage);
+        document.write("Program ended. Please reload the page.");
+    }
+
     // QUALITY-OF-LIFE FUNCTIONS END
 
     function masterParsingLogic() {
@@ -748,6 +755,7 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.onloadend = function (event) {
             let fileToText = event.target.result;
             let testSlice = fileToText.slice(0, 9);
+            let sh = "splitHere";
             if (testSlice === "\"Order #\"") {
                 if (IFIndex === 0) {
                     terminateProgram("The Magento spreadsheet " +
@@ -759,9 +767,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let lengthMin1 = arrayOfFileInputs[IFIndex].length - 1;
                     let aofi = arrayOfFileInputs[IFIndex];
                     arrayOfFileInputs[IFIndex] = aofi.slice(1, lengthMin1);
-    
                     arrayOfFileInputs[IFIndex].forEach(splitEachItem);
-                    let sh = "splitHere";
                     let splitHereCSV = arrayOfFileInputs[IFIndex].join(sh);
                     arrayOfFileInputs[IFIndex] = splitHereCSV;
                     getById("adminHeading").innerHTML = "IMPORT FILE READY:";
@@ -783,7 +789,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     let xmlDoc = parser.parseFromString(fileToText, "text/xml");
                     let start = xmlDoc.getElementsByTagName(vfp)[0].children;
                     arrayOfFileInputs[IFIndex] = Array.from(start);
-    
                     let extract = function (item, index) {
                         let dataFromXML = [];
                         let children = start[index].children;
@@ -796,7 +801,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         dataFromXML = [];
                     };
                     arrayOfFileInputs[IFIndex].forEach(extract);
-                    let sh = "splitHere";
                     let splitHereXML = arrayOfFileInputs[IFIndex].join(sh);
                     arrayOfFileInputs[IFIndex] = splitHereXML;
                     getById("adminHeading").innerHTML = "IMPORT FILE READY:";
@@ -806,7 +810,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     getById(fsi).value = arrayOfFileInputs[IFIndex];
                     let sttngsButton = getById("specificValuesFieldsetToggle");
                     sttngsButton.style.display = "none";
-                }   
+                }
             } else {
                 terminateProgram("LIL Helper does not recognize " +
                 "at least one of the files as valid input.");
@@ -814,7 +818,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
         if (selectedFile !== undefined) {
             reader.readAsText(selectedFile, "UTF-8");
-        } 
+        }
     }
 
     function parse() {
@@ -962,13 +966,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function terminateProgram(errorDetails) {
-        let terminateProgramMessage = "The program has encountered " +
-        "an error. Details: " + errorDetails + " Program terminated.";
-        alert(terminateProgramMessage);
-        document.write("Program ended. Please reload the page.");
-    }
-
     let valueIDPairs = [{
             elementID: "companyNameInput",
             value: "companyName",
@@ -1056,11 +1053,12 @@ document.addEventListener("DOMContentLoaded", function () {
             if (mode === "load") {
                 getById(item.elementID).value = specificValues[item.value];
             } else if (mode === "save") {
+                let elID = "";
                 if (item.array === true) {
-                    let elID = item.elementID
+                    elID = item.elementID;
                     specificValues[item.value] = getById(elID).value.split(",");
                 } else if (item.array === false) {
-                    let elID = item.elementID;
+                    elID = item.elementID;
                     specificValues[item.value] = getById(elID).value;
                 }
             }
