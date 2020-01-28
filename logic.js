@@ -1003,6 +1003,16 @@ document.addEventListener("DOMContentLoaded", function () {
             array: false
         },
         {
+            elementID: "importStartInput",
+            value: "importStartTime",
+            array: false
+        },
+        {
+            elementID: "importEndInput",
+            value: "importEndTime",
+            array: false
+        },
+        {
             elementID: "specialOrderCodeInput",
             value: "specialOrderCode",
             array: false
@@ -1050,11 +1060,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 getById(item.elementID).value = specificValues[item.value];
             } else if (mode === "save") {
                 if (item.array === true) {
-                    let spl = getById(item.elementID).split(",");
-                    specificValues[item.value] = spl;
+                    let elID = item.elementID
+                    specificValues[item.value] = getById(elID).value.split(",");
                 } else if (item.array === false) {
                     let elID = item.elementID;
-                    specificValues[item.value] = getById(elID);
+                    specificValues[item.value] = getById(elID).value;
                 }
             }
         }
@@ -1079,6 +1089,8 @@ document.addEventListener("DOMContentLoaded", function () {
         adminFolderValidationString: "",
         alternateID: "",
         companyIPAddress: "",
+        importStartTime: 0,
+        importEndTime: 23,
         specialOrderCode: "",
         specialLaborCodes: [],
         oneDayZoneArray: [],
