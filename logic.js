@@ -648,6 +648,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 function createSubArrays(arrayItem) {
                     let subArray = arrayItem.split("|\\|");
 
+                    let dateToHours = 0;
+                    let importTimeStart = 0;
+                    let importTimeEnd = 0;
+
+                    function checkImportTime() {
+                        let radioList = document.querySelectorAll("input[type='radio']");
+                        let radioListArray = Array.from(radioList);
+                        radioListArray.forEach(function (item) {
+                            if (item.checked === true) {
+                                let itemIdToNumber = parseInt(item.value);
+                                importTimeEnd = itemIdToNumber;
+                                // I'm just going to spell these out for now.
+                                if (importTimeEnd === 16) {
+                                    importTimeStart = 13;
+                                } else if (importTimeEnd === 13) {
+                                    importTimeStart = 11;
+                                } else if (importTimeEnd === 11) {
+                                    importTimeStart = 7;
+                                }
+                            }
+                        });
+                        dateSieve(dateToHours, importTimeStart, importTimeEnd);
+                    }
+
                     function dateSieve(hours, startHour, endHour) {
                         let hoursAboveMin = (hours >= startHour);
                         let hoursBelowMax = (hours < endHour);
@@ -680,10 +704,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                             let dateInMilliseconds = Date.parse(dateString);
                             let standardDate = new Date(dateInMilliseconds);
-                            let dateToHours = standardDate.getHours();
+                            dateToHours = standardDate.getHours();
                             subArray[indexOfDateString] = dateToHours;
-                            if (subArray.length === 11) {
-                                dateSieve(dateToHours, 0, 23);
+                            if (subArray.length === 10) {
+                                checkImportTime();
                             } else {
                                 checkForMultiLineOrder();
                             }
