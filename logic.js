@@ -1,5 +1,5 @@
 console.log(
-    "MOM'S LIL HELPER \n" +
+    "THE LIL HELPER \n" +
     "Local Intermediary Logic \n" +
     "By Nicholas Bernhard \n" +
     "\u00A9 2020 \n" +
@@ -564,6 +564,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 finalArray = arrayOfInputs[0].reverse();
             } else if (firstArrayIsEmpty && secondArrayIsEmpty) {
                 alert("Both arrays are empty. Nothing will be processed.");
+                terminateProgram();
             } else if ((!firstArrayIsEmpty) && (!secondArrayIsEmpty)) {
                 coreMergeLogic();
             }
@@ -718,6 +719,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function buildInputsFromUpload(inputFileItem, IFIndex) {
         let selectedFile = inputFileItem.files[0];
+        console.log(selectedFile);
         let reader = new FileReader();
 
         function splitEachItem(item, ind) {
@@ -729,6 +731,7 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.onloadend = function (event) {
             let fileToText = event.target.result;
             let testSlice = fileToText.slice(0, 9);
+            console.log("TEST SLICE: " + testSlice);
             if (testSlice === "\"Order #\"") {
                 fileToText = fileToText.replace(/,\s20/g, " 20");
                 fileToText = fileToText.replace(/"/g, "");
@@ -773,9 +776,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 getById("folderFileInput").style.display = "none";
                 getById(fsi).value = arrayOfFileInputs[IFIndex];
                 getById("specificValuesFieldsetToggle").style.display = "none";
+            } else {
+                terminateProgram("LIL Helper does not recognize " +
+                "at least one of the files as valid input.");
             }
         };
-        reader.readAsText(selectedFile, "UTF-8");
+        if (selectedFile !== undefined) {
+            reader.readAsText(selectedFile, "UTF-8");
+        } 
     }
 
     function parse() {
@@ -923,6 +931,13 @@ document.addEventListener("DOMContentLoaded", function () {
             masterParsingLogic();
             pauseBeforeScrollingDown();
         }
+    }
+
+    function terminateProgram(errorDetails) {
+        let terminateProgramMessage = "The program has encountered " +
+        "an error. Details: " + errorDetails + " Program terminated.";
+        alert(terminateProgramMessage);
+        document.write("Program ended. Please reload the page.");
     }
 
     let valueIDPairs = [{
