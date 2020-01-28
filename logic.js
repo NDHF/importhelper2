@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let elementToAppendTo = getById(idOfEl);
         newElement.appendChild(newElementContent);
         elementToAppendTo.appendChild(newElement);
-        otherFunc;
     }
 
     function toggleClassForID(id, class1, class2) {
@@ -135,46 +134,53 @@ document.addEventListener("DOMContentLoaded", function () {
             function appendTH(propertiesForTableItem) {
                 if (firstItemOfFinalArray[propertiesForTableItem.name] !==
                     undefined) {
-                    makeANode("TH", propertiesForTableItem.heading, "tableHeaderRow");
+                    let heading = propertiesForTableItem.heading;
+                    makeANode("TH", heading, "tableHeaderRow");
                 }
             }
             propertiesForTable.forEach(appendTH);
 
             function appendRows(finalArrayItem, index) {
-                makeANode("TR", "", "resultsTable", ("tableRow" + (index + 1)));
+                let currentTR = ("tableRow" + (index + 1));
+                let currAlertArr = ("alertArray" + (index + 1));
+                let currAlertUL = ("alertUL" + (index + 1));
+                makeANode("TR", "", "resultsTable", currentTR);
 
                 function makeTableRowContent(propertiesForTableItem) {
+                    function buildAlertList(alertArrayItem) {
+                        makeANode("LI", alertArrayItem, currAlertArr);
+                    }
                     if (firstItemOfFinalArray[propertiesForTableItem.name] !==
                         undefined) {
                         if (propertiesForTableItem.name === "alertArray") {
-                            makeANode("TD", "", ("tableRow" + (index + 1)), ("alertArray" + (index + 1)));
-
-                            function buildAlertList(alertArrayItem) {
-                                makeANode("LI", alertArrayItem, ("alertUL" + (index + 1)));
-                            }
-                            makeANode("UL", "", ("alertArray" + (index + 1)), ("alertUL" + (index + 1)));
+                            makeANode("TD", "", currentTR, currAlertArr);
+                            makeANode("UL", "", currentTR, currAlertUL);
                             finalArrayItem.alertArray.forEach(buildAlertList);
                         } else {
-                            makeANode("TD", finalArrayItem[propertiesForTableItem.name], ("tableRow" + (index + 1)));
+                            let i = finalArrayItem[propertiesForTableItem.name];
+                            makeANode("TD", i, currentTR);
                         }
                     }
                     if (finalArrayItem.alertActive === true) {
-                        if (getById("tableRow" + (index + 1)).classList.contains("alert") === false) {
-                            getById("tableRow" + (index + 1)).classList.add("alert");
+                        if (getById(currentTR).classList.contains("alert") ===
+                            false) {
+                            getById(currentTR).classList.add("alert");
                         }
                     }
                     if (finalArrayItem.riskyButIPMatches === true) {
-                        if (getById("tableRow" + (index + 1)).classList.contains("alert") === true) {
-                            getById("tableRow" + (index + 1)).classList.remove("alert");
-                            getById("tableRow" + (index + 1)).classList.add("greenAlert");
+                        if (getById(currentTR).classList.contains("alert") ===
+                            true) {
+                            getById(currentTR).classList.remove("alert");
+                            getById(currentTR).classList.add("greenAlert");
                         }
                     }
                     if (finalArrayItem.nameAlreadyExists === true) {
-                        if (getById("tableRow" + (index + 1)).classList.contains("alert") === true) {
-                            getById("tableRow" + (index + 1)).classList.remove("alert");
-                            getById("tableRow" + (index + 1)).classList.add("purpleAlert");
+                        if (getById(currentTR).classList.contains("alert") ===
+                            true) {
+                            getById(currentTR).classList.remove("alert");
+                            getById(currentTR).classList.add("purpleAlert");
                         } else {
-                            getById("tableRow" + (index + 1)).classList.add("purpleAlert");
+                            getById(currentTR).classList.add("purpleAlert");
                         }
                     }
                 }
@@ -453,8 +459,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             if (orderIsNotInUS) {
                                 finalArrayItem.shippingAlert = true;
                                 finalArrayItem.alertArray.push("This is " +
-                                    "likely an international order. I suggest " +
-                                    "you update shipping to MIP. IN ADDITION, " +
+                                    "likely an international order. " +
+                                    "I suggest " +
+                                    "you update shipping to MIP. " +
+                                    "IN ADDITION, " +
                                     "check phone number in MOM for a '1' " +
                                     "at the beginning.");
                                 activateAlertStatus();
@@ -481,7 +489,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 function checkForSpecialPackingRequirement() {
                     if (finalArrayItem.specialPackingRequired === true) {
                         finalArrayItem.alertArray.push("This order will " +
-                            "require special packing. Additional boxes may be " +
+                            "require special packing. " +
+                            "Additional boxes may be " +
                             "required, or item might have shipping method " +
                             "restrictions.");
                     }
@@ -531,14 +540,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     function loopThroughFolderArray(folderArrayItem) {
                         let matchDetected = (adminArrayItem.orderNumber ===
                             folderArrayItem.orderNumber);
+
+                        function loopMatchPropArray(item) {
+                            folderArrayItem[item] = adminArrayItem[item];
+                        }
                         if (matchDetected) {
                             let matchPropArray = [
                                 "orderTotal", "fraudRiskString", "ipAddress"
                             ];
-
-                            function loopMatchPropArray(item) {
-                                folderArrayItem[item] = adminArrayItem[item];
-                            }
                             matchPropArray.forEach(loopMatchPropArray);
                             finalArray.push(folderArrayItem);
                         }
@@ -561,69 +570,69 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function buildObject(array, arrayIndex) {
+            function buildAdminArrayObject(subArray, subArrayIndex) {
+                let cleanOrderNumber;
+
+                function cleanUpOrderNumberForMerge() {
+                    if (subArray[0].charAt(0) === " ") {
+                        cleanOrderNumber = subArray[0].slice(1);
+                    } else {
+                        cleanOrderNumber = subArray[0];
+                    }
+                }
+                cleanUpOrderNumberForMerge();
+                let adminArrayObject = {
+                    orderNumber: cleanOrderNumber,
+                    billingName: subArray[2],
+                    shippingName: subArray[3],
+                    orderTotal: subArray[4],
+                    fraudRiskString: subArray[8],
+                    ipAddress: subArray[9],
+                    alertArray: []
+                };
+                arrayOfInputs[arrayIndex][subArrayIndex] = adminArrayObject;
+            }
+
+            function buildFolderArrayObject(subArray, subArrayIndex) {
+                let folderArrObj = {
+                    shipVia: subArray[28],
+                    orderNumber: subArray[33],
+                    lastName: subArray[44],
+                    firstName: subArray[45],
+                    company: subArray[46],
+                    address: subArray[47],
+                    city: subArray[49],
+                    state: subArray[50],
+                    zipCode: subArray[51],
+                    shippingCost: subArray[69],
+                    phoneNumber: subArray[75],
+                    alertArray: [],
+                    shippingAlert: false
+                };
+                let laborCounter = 0;
+
+                function laborArrayLoop(laborArrayItem) {
+                    if (subArray.includes(laborArrayItem)) {
+                        laborCounter = laborCounter + 1;
+                    }
+                }
+                specificValues.specialLaborCodes.forEach(laborArrayLoop);
+                if (laborCounter > 0) {
+                    folderArrObj.labor = true;
+                } else {
+                    folderArrObj.labor = false;
+                }
+                arrayOfInputs[arrayIndex][subArrayIndex] = folderArrObj;
+            }
+
+            function buildObjectDecisionTree(subArray, subArrayIndex) {
+                if (subArray.length === 10) {
+                    buildAdminArrayObject(subArray, subArrayIndex);
+                } else {
+                    buildFolderArrayObject(subArray, subArrayIndex);
+                }
+            }
             if (array !== "") {
-                function buildAdminArrayObject(subArray, subArrayIndex) {
-                    let cleanOrderNumber;
-
-                    function cleanUpOrderNumberForMerge() {
-                        if (subArray[0].charAt(0) === " ") {
-                            cleanOrderNumber = subArray[0].slice(1);
-                        } else {
-                            cleanOrderNumber = subArray[0];
-                        }
-                    }
-                    cleanUpOrderNumberForMerge();
-                    let adminArrayObject = {
-                        orderNumber: cleanOrderNumber,
-                        billingName: subArray[2],
-                        shippingName: subArray[3],
-                        orderTotal: subArray[4],
-                        fraudRiskString: subArray[8],
-                        ipAddress: subArray[9],
-                        alertArray: []
-                    };
-                    arrayOfInputs[arrayIndex][subArrayIndex] = adminArrayObject;
-                }
-
-                function buildFolderArrayObject(subArray, subArrayIndex) {
-                    let folderArrObj = {
-                        shipVia: subArray[28],
-                        orderNumber: subArray[33],
-                        lastName: subArray[44],
-                        firstName: subArray[45],
-                        company: subArray[46],
-                        address: subArray[47],
-                        city: subArray[49],
-                        state: subArray[50],
-                        zipCode: subArray[51],
-                        shippingCost: subArray[69],
-                        phoneNumber: subArray[75],
-                        alertArray: [],
-                        shippingAlert: false
-                    };
-                    let laborCounter = 0;
-
-                    function laborArrayLoop(laborArrayItem) {
-                        if (subArray.includes(laborArrayItem)) {
-                            laborCounter = laborCounter + 1;
-                        }
-                    }
-                    specificValues.specialLaborCodes.forEach(laborArrayLoop);
-                    if (laborCounter > 0) {
-                        folderArrObj.labor = true;
-                    } else {
-                        folderArrObj.labor = false;
-                    }
-                    arrayOfInputs[arrayIndex][subArrayIndex] = folderArrObj;
-                }
-
-                function buildObjectDecisionTree(subArray, subArrayIndex) {
-                    if (subArray.length === 10) {
-                        buildAdminArrayObject(subArray, subArrayIndex);
-                    } else {
-                        buildFolderArrayObject(subArray, subArrayIndex);
-                    }
-                }
                 array.forEach(buildObjectDecisionTree);
             }
         }
@@ -710,48 +719,52 @@ document.addEventListener("DOMContentLoaded", function () {
     function buildInputsFromUpload(inputFileItem, IFIndex) {
         let selectedFile = inputFileItem.files[0];
         let reader = new FileReader();
+
+        function splitEachItem(item, ind) {
+            let s = arrayOfFileInputs[IFIndex][ind].split(",");
+            let j = s.join("|\\|");
+            arrayOfFileInputs[IFIndex][ind] = s;
+            arrayOfFileInputs[IFIndex][ind] = j;
+        }
         reader.onloadend = function (event) {
             let fileToText = event.target.result;
             let testSlice = fileToText.slice(0, 9);
             if (testSlice === "\"Order #\"") {
-                fileToText = fileToText.replace(/,\s20/g, "\s20");
+                fileToText = fileToText.replace(/,\s20/g, " 20");
                 fileToText = fileToText.replace(/"/g, "");
                 arrayOfFileInputs[IFIndex] = fileToText.split("\n");
                 let lengthMin1 = arrayOfFileInputs[IFIndex].length - 1;
                 let aofi = arrayOfFileInputs[IFIndex];
                 arrayOfFileInputs[IFIndex] = aofi.slice(1, lengthMin1);
 
-                function splitEachItem(item, ind) {
-                    let s = arrayOfFileInputs[IFIndex][ind].split(",");
-                    let j = arrayOfFileInputs[IFIndex][ind].join("|\\|");
-                    arrayOfFileInputs[IFIndex][ind] = s;
-                    arrayOfFileInputs[IFIndex][ind] = j;
-                }
                 arrayOfFileInputs[IFIndex].forEach(splitEachItem);
                 let splitHereCSV = arrayOfFileInputs[IFIndex].join("splitHere");
                 arrayOfFileInputs[IFIndex] = splitHereCSV;
                 getById("adminHeading").innerHTML = "IMPORT FILE READY:";
                 toggleClassForID("adminSpreadsheetInput", "standby", "active");
                 getById("adminFileInput").style.display = "none";
-                getById("adminSpreadsheetInput").value = arrayOfFileInputs[IFIndex];
+                let adminSpreadsheetInput = getById("adminSpreadsheetInput");
+                adminSpreadsheetInput.value = arrayOfFileInputs[IFIndex];
             } else if (testSlice === "<VFPData>") {
                 arrayOfFileInputs[IFIndex] = fileToText;
+                fileToText = arrayOfFileInputs[IFIndex];
                 let parser = new DOMParser();
-                let xmlDoc = parser.parseFromString(arrayOfFileInputs[IFIndex], "text/xml");
-                let startingXMLData = xmlDoc.getElementsByTagName("VFPData")[0].children;
-                arrayOfFileInputs[IFIndex] = Array.from(xmlDoc.getElementsByTagName("VFPData")[0].children);
-                let dataFromXML = [];
+                let xmlDoc = parser.parseFromString(fileToText, "text/xml");
+                let start = xmlDoc.getElementsByTagName("VFPData")[0].children;
+                arrayOfFileInputs[IFIndex] = Array.from(start);
 
-                function extractValuesFromXML(item, index) {
-                    let xmlItemDataArray = Array.from(startingXMLData[index].children);
+                let extract = function (item, index) {
+                    let dataFromXML = [];
+                    let children = start[index].children;
+                    let xmlItemDataArray = Array.from(children);
                     xmlItemDataArray.forEach(function (item) {
                         dataFromXML.push(item.innerHTML);
                     });
                     dataFromXML = dataFromXML.join("|\\|");
                     arrayOfFileInputs[IFIndex][index] = dataFromXML;
                     dataFromXML = [];
-                }
-                arrayOfFileInputs[IFIndex].forEach(extractValuesFromXML);
+                };
+                arrayOfFileInputs[IFIndex].forEach(extract);
                 let splitHereXML = arrayOfFileInputs[IFIndex].join("splitHere");
                 arrayOfFileInputs[IFIndex] = splitHereXML;
                 getById("adminHeading").innerHTML = "IMPORT FILE READY:";
@@ -763,6 +776,13 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         };
         reader.readAsText(selectedFile, "UTF-8");
+    }
+
+    function parse() {
+        getById("parseFilesButton").style.display = "none";
+        toggleClassForID("submitButton", "standby", "active");
+        toggleClassForID("importTimeSelect", "standby", "active");
+        arrayOfFileInputs.forEach(buildInputsFromUpload);
     }
 
     function generateMessages() {
@@ -891,16 +911,16 @@ document.addEventListener("DOMContentLoaded", function () {
         alert(confirmMessage);
         let confirmation = confirm("Please confirm the import" +
             " is in before proceeding. Click 'OK' to run the program.");
+
+        function pauseBeforeScrollingDown() {
+            function scrollToBottom() {
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+            setTimeout(scrollToBottom, 3500);
+        }
         if (confirmation === true) {
             generateMessages();
             masterParsingLogic();
-
-            function pauseBeforeScrollingDown() {
-                function scrollToBottom() {
-                    window.scrollTo(0, document.body.scrollHeight);
-                }
-                setTimeout(scrollToBottom, 3500);
-            }
             pauseBeforeScrollingDown();
         }
     }
@@ -1054,17 +1074,41 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Check to see if it copied.");
     }
 
-    whenClicked("parseFilesButton", function () {
-        getById("parseFilesButton").style.display = "none";
-        toggleClassForID("submitButton", "standby", "active");
-        toggleClassForID("importTimeSelect", "standby", "active");
-        arrayOfFileInputs.forEach(buildInputsFromUpload);
-    });
-    whenClicked("submitButton", confirmBeforeRunning);
-    whenClicked("insuranceCalcButton", calculateInsurance);
-    whenClicked("saveValuesButton", saveValues);
-    whenClicked("specificValuesFieldsetToggle", toggleSettingsFieldset);
-    whenClicked("loadSettingsButton", loadSettingsFromString);
-    whenClicked("exportSettingsButton", exportSettingsToString);
+    let listenerArray = [
+        {
+            buttonID: "parseFilesButton",
+            functionToRun: parse
+        },
+        {
+            buttonID: "submitButton",
+            functionToRun: confirmBeforeRunning
+        },
+        {
+            buttonID: "insuranceCalcButton",
+            functionToRun: calculateInsurance
+        },
+        {
+            buttonID: "saveValuesButton",
+            functionToRun: saveValues
+        },
+        {
+            buttonID: "specificValuesFieldsetToggle",
+            functionToRun: toggleSettingsFieldset
+        },
+        {
+            buttonID: "loadSettingsButton",
+            functionToRun: loadSettingsFromString
+        },
+        {
+            buttonID: "exportSettingsButton",
+            functionToRun: exportSettingsToString
+        }
+    ];
+
+    function addListenersFromArray(item) {
+        whenClicked(item.buttonID, item.functionToRun);
+    }
+
+    listenerArray.forEach(addListenersFromArray);
 
 });
