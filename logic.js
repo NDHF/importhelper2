@@ -649,28 +649,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     let subArray = arrayItem.split("|\\|");
 
                     let dateToHours = 0;
-                    let importTimeStart = 0;
-                    let importTimeEnd = 0;
-
-                    function checkImportTime() {
-                        let radioList = document.querySelectorAll("input[type='radio']");
-                        let radioListArray = Array.from(radioList);
-                        radioListArray.forEach(function (item) {
-                            if (item.checked === true) {
-                                let itemIdToNumber = parseInt(item.value);
-                                importTimeEnd = itemIdToNumber;
-                                // I'm just going to spell these out for now.
-                                if (importTimeEnd === 16) {
-                                    importTimeStart = 13;
-                                } else if (importTimeEnd === 13) {
-                                    importTimeStart = 11;
-                                } else if (importTimeEnd === 11) {
-                                    importTimeStart = 7;
-                                }
-                            }
-                        });
-                        dateSieve(dateToHours, importTimeStart, importTimeEnd);
-                    }
+                    let importStart = parseInt(specificValues.importStart);
+                    let importEnd = parseInt(specificValues.importEnd);
 
                     function dateSieve(hours, startHour, endHour) {
                         let hoursAboveMin = (hours >= startHour);
@@ -707,7 +687,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             dateToHours = standardDate.getHours();
                             subArray[indexOfDateString] = dateToHours;
                             if (subArray.length === 10) {
-                                checkImportTime();
+                                dateSieve(dateToHours, importStart, importEnd);
                             } else {
                                 checkForMultiLineOrder();
                             }
@@ -826,7 +806,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function parse() {
         getById("parseFilesButton").style.display = "none";
         toggleClassForID("submitButton", "standby", "active");
-        toggleClassForID("importTimeSelect", "standby", "active");
+        // toggleClassForID("importTimeSelect", "standby", "active");
         arrayOfFileInputs.forEach(buildInputsFromUpload);
     }
 
@@ -1004,12 +984,12 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         {
             elementID: "importStartInput",
-            value: "importStartTime",
+            value: "importStart",
             array: false
         },
         {
             elementID: "importEndInput",
-            value: "importEndTime",
+            value: "importEnd",
             array: false
         },
         {
@@ -1089,8 +1069,8 @@ document.addEventListener("DOMContentLoaded", function () {
         adminFolderValidationString: "",
         alternateID: "",
         companyIPAddress: "",
-        importStartTime: 0,
-        importEndTime: 23,
+        importStart: 0,
+        importEnd: 23,
         specialOrderCode: "",
         specialLaborCodes: [],
         oneDayZoneArray: [],

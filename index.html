@@ -48,33 +48,33 @@
 				<span>Company IP Address: </span><input type="input" id="ipAddressInput" />
 				<br />
 				<br />
-				<span>Import Start Time: </span><input type="number" id="importStartInput" />
+				<span>Import Start Time (use 24-hour time): </span><input type="number" id="importStartInput" />
 				<br />
 				<br />
-				<span>Import End Time: </span><input type="number" id="importEndInput" />
+				<span>Import End Time (use 24-hour time): </span><input type="number" id="importEndInput" />
 				<br />
 				<br />
 				<span>Special Order Code: </span><input type="input" id="specialOrderCodeInput" />
 				<br />
 				<br />
-				<span>Special Labor Codes (separate with commas): </span>
+				<span>Special Labor Codes (separate with commas, no spaces): </span>
 				<br />
-				<textarea id="specialLaborCodeInput" rows="5" cols="60"></textarea>
+				<textarea id="specialLaborCodeInput" rows="5" cols="75"></textarea>
 				<br>
 				<br>
-				<span>States In One-Day Zone (separate with commas):</span>
+				<span>States In One-Day Zone (separate with commas, no spaces):</span>
 				<br>
-				<textarea id="oneDayZoneInput" rows="5" cols="60"></textarea>
-				<br>
-				<br>
-				<span>States In Two-Day Zone (separate with commas):</span>
-				<br>
-				<textarea id="twoDayZoneInput" rows="5" cols="60"></textarea>
+				<textarea id="oneDayZoneInput" rows="5" cols="75"></textarea>
 				<br>
 				<br>
-				<span>States Outside of Two-Day Zone (separate with commas):</span>
+				<span>States In Two-Day Zone (separate with commas, no spaces):</span>
 				<br>
-				<textarea id="remainderOfUSInput" rows="5" cols="60"></textarea>
+				<textarea id="twoDayZoneInput" rows="5" cols="75"></textarea>
+				<br>
+				<br>
+				<span>States Outside of Two-Day Zone (separate with commas, no spaces):</span>
+				<br>
+				<textarea id="remainderOfUSInput" rows="5" cols="75"></textarea>
 				<br>
 				<br>
 				<span>High Value Order Threshold:</span><input type="input" id="highValueOrderThresholdInput" />
@@ -89,14 +89,14 @@
 				</div>
 			</fieldset>
 
-			<fieldset id="importTimeSelect" class="standby">
+			<!-- <fieldset id="importTimeSelect" class="standby">
 				<legend><b>&nbsp;CHOOSE AN IMPORT TIME&nbsp;</b></legend>
 				<input type="radio" class="radioButton" name="whichImportTime" value="11"> 11 AM <br>
 				<input type="radio" class="radioButton" name="whichImportTime" value="13"> 1 PM <br>
 				<input type="radio" class="radioButton" name="whichImportTime" value="16"> 4 PM
 				<br>
 				<br>
-			</fieldset>
+			</fieldset> -->
 
 			<button type="button" class="setupScreenButton largeButton standby" id="submitButton">SUBMIT</button>
 
