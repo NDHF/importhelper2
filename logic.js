@@ -487,7 +487,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 function checkForSpecialPackingRequirement() {
-                    if (finalArrayItem.specialPackingRequired === true) {
+                    if (finalArrayItem.specialPacking === true) {
                         finalArrayItem.alertArray.push("This order will " +
                             "require special packing. " +
                             "Additional boxes may be " +
@@ -514,12 +514,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     checkForHighRiskANDHighValue();
                     validateIPAddress();
                     checkForHighValueAndIPMatch();
-                    checkForSpecialPackingRequirement();
                     if (finalArrayItem.shipVia !== undefined) {
                         evaluateShipVia();
                     }
                     if (finalArrayItem.labor !== undefined) {
                         checkForLabor();
+                    }
+                    if (finalArrayItem.specialPacking !== undefined) {
+                        checkForSpecialPackingRequirement();
                     }
                     if (finalArrayItem.specialOrder !== undefined) {
                         checkForSpecialOrder();
@@ -611,6 +613,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     shippingAlert: false
                 };
                 let laborCounter = 0;
+                let specialPackingCounter = 0;
 
                 function laborArrayLoop(laborArrayItem) {
                     if (subArray.includes(laborArrayItem)) {
@@ -622,6 +625,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     folderArrObj.labor = true;
                 } else {
                     folderArrObj.labor = false;
+                }
+                function packingLoop(specialPackingItem) {
+                    if (subArray.includes(specialPackingItem)) {
+                        specialPackingCounter = specialPackingCounter + 1;
+                    }
+                }
+                specificValues.specialPacking.forEach(packingLoop);
+                if (specialPackingCounter > 0) {
+                    folderArrObj.specialPacking = true;
+                } else {
+                    folderArrObj.specialPacking = false;
                 }
                 arrayOfInputs[arrayIndex][subArrayIndex] = folderArrObj;
             }
@@ -806,7 +820,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function parse() {
         getById("parseFilesButton").style.display = "none";
         toggleClassForID("submitButton", "standby", "active");
-        // toggleClassForID("importTimeSelect", "standby", "active");
         arrayOfFileInputs.forEach(buildInputsFromUpload);
     }
 
@@ -936,7 +949,6 @@ document.addEventListener("DOMContentLoaded", function () {
         alert(confirmMessage);
         let confirmation = confirm("Please confirm the import" +
             " is in before proceeding. Click 'OK' to run the program.");
-
         function pauseBeforeScrollingDown() {
             function scrollToBottom() {
                 window.scrollTo(0, document.body.scrollHeight);
@@ -1000,6 +1012,11 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             elementID: "specialLaborCodeInput",
             value: "specialLaborCodes",
+            array: true
+        },
+        {
+            elementID: "specialPackingInput",
+            value: "specialPacking",
             array: true
         },
         {
@@ -1073,6 +1090,7 @@ document.addEventListener("DOMContentLoaded", function () {
         importEnd: 23,
         specialOrderCode: "",
         specialLaborCodes: [],
+        specialPacking: [],
         oneDayZoneArray: [],
         twoDayZoneArray: [],
         restOfContiguousUS: []
