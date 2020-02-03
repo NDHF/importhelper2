@@ -310,7 +310,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (finalArrayItem.orderTotal >=
                         specificValues.highValueOrderThreshold) {
                         finalArrayItem.highValueOrder = true;
-                        finalArrayItem.alertArray.push("High-value order.");
+                        finalArrayItem.alertArray.push("CAUTION: " +
+                            "High-value order. " +
+                            "Please check the order in Magento " +
+                            "to see if the billing address and " +
+                            "shipping adress match, otherwise " +
+                            "you may not be protected.");
                         activateAlertStatus();
                     } else {
                         finalArrayItem.highValueOrder = false;
