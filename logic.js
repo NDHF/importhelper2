@@ -956,13 +956,9 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(resetInsuranceCalc, 5000);
     }
 
-
     function confirmBeforeRunning() {
-        let confirmMessage = "STOP!!! cried the archdeacon." +
-            " The import might not be in yet!";
-        alert(confirmMessage);
         let confirmation = confirm("Please confirm the import" +
-            " is in before proceeding. Click 'OK' to run the program.");
+            " is ready before proceeding. Click 'OK' to run the program.");
         function pauseBeforeScrollingDown() {
             function scrollToBottom() {
                 window.scrollTo(0, document.body.scrollHeight);
