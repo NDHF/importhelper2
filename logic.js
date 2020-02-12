@@ -776,7 +776,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     arrayOfFileInputs[IFIndex].forEach(splitEachItem);
                     let splitHereCSV = arrayOfFileInputs[IFIndex].join(sh);
                     arrayOfFileInputs[IFIndex] = splitHereCSV;
-                    getById("adminHeading").innerHTML = "IMPORT FILE READY:";
+                    getById("adminHeading").innerHTML = "ADMIN CSV FILE READY:";
                     let act = "active";
                     toggleClassForID("adminSpreadsheetInput", "standby", act);
                     getById("adminFileInput").style.display = "none";
@@ -809,7 +809,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     arrayOfFileInputs[IFIndex].forEach(extract);
                     let splitHereXML = arrayOfFileInputs[IFIndex].join(sh);
                     arrayOfFileInputs[IFIndex] = splitHereXML;
-                    getById("adminHeading").innerHTML = "IMPORT FILE READY:";
+                    getById("folderHeading").innerHTML = "XML FILE READY:";
                     let fsi = "folderSpreadsheetInput";
                     toggleClassForID(fsi, "standby", "active");
                     getById("folderFileInput").style.display = "none";
@@ -830,7 +830,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function parse() {
         getById("parseFilesButton").style.display = "none";
         toggleClassForID("submitButton", "standby", "active");
+        getById("submitButton").style.display = "none";
         arrayOfFileInputs.forEach(buildInputsFromUpload);
+        setTimeout(function () {
+            getById("submitButton").click();
+        }, 500);
     }
 
     function generateMessages() {
@@ -840,7 +844,7 @@ document.addEventListener("DOMContentLoaded", function () {
         getById("inputDiv").classList.add("standby");
         //  FUNCTIONS FOR GENERATING MOM MESSAGES
         function generateMOMMessage(startOrEnd) {
-            let time;
+            let time = "";
 
             function generateOutput() {
                 let message = "";
