@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function terminateProgram(errorDetails) {
         let terminateProgramMessage = "The program has encountered " +
-        "an error. Details: " + errorDetails + " Program terminated.";
+            "an error. Details: " + errorDetails + " Program terminated.";
         alert(terminateProgramMessage);
         document.write("Program ended. Please reload the page.");
     }
@@ -505,7 +505,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             "Additional boxes may be " +
                             "required, or item might have shipping method " +
                             "restrictions.");
-                            activateAlertStatus();
+                        activateAlertStatus();
                     }
                 }
 
@@ -639,6 +639,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     folderArrObj.labor = false;
                 }
+
                 function packingLoop(specialPackingItem) {
                     if (subArray.includes(specialPackingItem)) {
                         specialPackingCounter = specialPackingCounter + 1;
@@ -765,7 +766,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (testSlice === "\"Order #\"") {
                 if (IFIndex === 0) {
                     terminateProgram("The Magento spreadsheet " +
-                    "is where the Bizsync spreadsheet should be.");
+                        "is where the Bizsync spreadsheet should be.");
                 } else {
                     fileToText = fileToText.replace(/,\s20/g, " 20");
                     fileToText = fileToText.replace(/"/g, "");
@@ -786,7 +787,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else if (testSlice === "<VFPData>") {
                 if (IFIndex === 1) {
                     terminateProgram("The Bizsync spreadsheet " +
-                    "is where the Magento spreadsheet should be.");
+                        "is where the Magento spreadsheet should be.");
                 } else {
                     arrayOfFileInputs[IFIndex] = fileToText;
                     fileToText = arrayOfFileInputs[IFIndex];
@@ -819,7 +820,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             } else {
                 terminateProgram("LIL Helper does not recognize " +
-                "at least one of the files as valid input.");
+                    "at least one of the files as valid input.");
             }
         };
         if (selectedFile !== undefined) {
@@ -828,13 +829,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function parse() {
-        getById("parseFilesButton").style.display = "none";
-        toggleClassForID("submitButton", "standby", "active");
-        getById("submitButton").style.display = "none";
-        arrayOfFileInputs.forEach(buildInputsFromUpload);
-        setTimeout(function () {
-            getById("submitButton").click();
-        }, 500);
+        let proceed = false;
+        function checkTheTime() {
+            let currentDate = new Date();
+            let currentHour = currentDate.getHours();
+            let importBegin = (parseInt(specificValues.importStart));
+            let importFinish = (parseInt(specificValues.importEnd));
+            if ((currentHour < importBegin) || (currentHour > importFinish)) {
+                alert("Your current user settings are not set for " +
+                "an import at this time. Please check your user " +
+                "settings and try again.");
+                document.write("Program ended.");
+            } else {
+                proceed = true;
+            }
+        }
+        checkTheTime();
+        if (proceed === true) {
+            getById("parseFilesButton").style.display = "none";
+            toggleClassForID("submitButton", "standby", "active");
+            getById("submitButton").style.display = "none";
+            arrayOfFileInputs.forEach(buildInputsFromUpload);
+            setTimeout(function () {
+                getById("submitButton").click();
+            }, 1000);
+        }
     }
 
     function generateMessages() {
@@ -959,6 +978,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function confirmBeforeRunning() {
         let confirmation = confirm("Please confirm the import" +
             " is ready before proceeding. Click 'OK' to run the program.");
+
         function pauseBeforeScrollingDown() {
             function scrollToBottom() {
                 window.scrollTo(0, document.body.scrollHeight);
@@ -1140,8 +1160,7 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Check to see if it copied.");
     }
 
-    let listenerArray = [
-        {
+    let listenerArray = [{
             buttonID: "parseFilesButton",
             functionToRun: parse
         },

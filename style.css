@@ -274,3 +274,13 @@ main h2 {
 main li {
     margin-bottom: 10px;
 }
+
+img {
+    display: block;
+    border: 5px solid white;
+    margin-top: 10px;
+}
+
+section:last-child {
+    margin-bottom: 10%;
+}

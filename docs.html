@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>LIL HELPER DOCUMENTATION</title>
+    <link rel="icon" type="image/png" href="images/lilFavicon.png" />
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
@@ -20,16 +21,27 @@
         <div id="tableOfContents">
             <h2>TABLE OF CONTENTS</h2>
             <ul>
+                <li><a href="#disclaimer"><b>DISCLAIMER</b></a></li>
                 <li><a href="#about"><b>ABOUT THE LIL HELPER: AN OVERVIEW</b></a></li>
                 <li><a href="#features"><b>FEATURES</b></a></li>
                 <li><a href="#setup"><b>SETUP</b></a></li>
                 <li><a href="#usingLILHelper"><b>USING THE LIL HELPER: A STEP-BY-STEP GUIDE</b></a></li>
+                <li><a href="#devNotes"><b>DEVELOPMENT NOTES</b></a></li>
             </ul>
         </div>
+
+        <section id="disclaimer">
+            <h2>DISCLAIMER</h2>
+            <p>The <strong>LIL Helper</strong> is not associated with Magento or Freestyle Solutions in any way.</p>
+            <p>The <strong>LIL Helper</strong> is provided as-is, with no warranty.</p>
+        </section>
 
         <section id="about">
             <h2>A BETTER WAY TO IMPORT</h2>
             <p>The <strong>LIL HELPER</strong> takes the heartache and pain out of importing Magento orders into MOM.
+            </p>
+            <p>For anyone who uses Bizsync to import orders from Magento to MOM, 
+                the <strong>LIL Helper</strong> makes things easier by taking out the guess-work.
             </p>
             <p>Every MOM import has its potential dangers: shipping methods that need correction,
                 special orders, high-risk orders, it's a lot to look for. The <strong>LIL HELPER</strong>
@@ -95,17 +107,53 @@
 
         <section id="setup">
             <h2>SETTING UP THE LIL HELPER</h2>
+            <p>The <strong>LIL Helper</strong> requires information specific to your company in order to work.</p>
+            <p>This information is securely stored in your browser's local storage, it is not stored on a server.</p>
+            <p>Once this information is entered by the user, it can be stored indefinitely, and updated if needed.</p>
+            <p>User info can be added, removed, or modified in the SETTINGS section</p>
+
+            <ol>
+                <li>To access user settings, load the <strong>LIL Helper</strong>,
+                and click the SHOW SETTINGS button in the top-right corner of the screen.
+                    <img style="width:60%;" src="images/showSettingsLocation.PNG" />
+                </li>
+                <li>When the SHOW SETTINGS button is clicked, it will reveal the setting section in the lower
+                    half of the screen.
+                </li>
+            </ol>
         </section>
 
         <section id="usingLILHelper">
             <h2>USING THE LIL HELPER: A STEP-BY-STEP GUIDE</h2>
 
             <ol>
-                <li><b>Load the Bizsync Orders.xml file</b></li>
+                <li><b>Load the Bizsync Orders.xml file</b>
+                    <img src="images/xmlFileButton.PNG" title="The button for selecting the XML file." />
+                    <p>This file will always be in the same folder
+                        in your company's system.</p>
+                    <img src="images/xmlFileInFolder.png" title="What the XML folder typically looks like." />
+                </li>
                 <li><b>Load the Magento Orders.csv file</b></li>
-                <li><b>Parse the files by clicking the Parse Files Button</b></li>
-                <li><b>Click RUN PROGRAM button.</b></li>
+                <p>To create the Magento order file, go into Magento, and click <b>Sales</b> --> <b>Extended Orders</b>
+                    <img src="images/extendedOrders.png" title="The button for the Extended Orders page in Magento." />
+                </p>
+                <p>Select only orders from today, at the top of the <b>Purchased On</b> column for the order table.</p>
+                <img src="images/selectDates.PNG" title="Make sure you select the correct dates!" />
+                <p><strong>BY ODIN'S BEARD</strong>, <em>make sure you select a date before exporting!</em>
+                    If you do not have dates selected, Magento will attempt to make a CSV file with <strong>all</strong>
+                    company's orders, which will jam the system.</p>
+                <p>On the right-hand side of the page, click the <b>Export</b> button.</p>
+                <img src="images/magentoExportCSVButton.PNG" title="The button for exporting Magento's CSV orders file" />
+                <p>This will download a CSV file to your specified download folder.</p>
+                <img src="images/downloadedCSVFile.png" title="What a dowloaded CSV orders file looks like in Chrome" />
+                <p>The CSV file is now ready to load.</p>
+                <li><b>Click the RUN PROGRAM button.</b>
+                    <img src="images/runProgramButton.PNG" title="The button for running the LIL Helper" />
+                </li>
                 <li><b>Double-check that the import XML file is ready.</b>
+                    <p>After you click RUN PROGRAM, you will be warned to check that
+                        the import file is ready.
+                    </p>
                     <p>Never assume that just because the clock says
                         it's time for your import, that the import file is ready.
                         The Bizsync Orders.xml file may arrive early, or late.
@@ -124,6 +172,7 @@
                     <p>The program will terminate under the following conditions:</p>
                     <ul>
                         <li>If <em>no files</em> have been selected.</li>
+                        <li>If the <strong>LIL HELPER</strong> does not recognize the file.</li>
                         <li>If either file is in the incorrect place,
                             for example, the CSV file is loaded in the area meant for the XML file.</li>
                     </ul>
@@ -143,13 +192,21 @@
                 </li>
             </ol>
             <p>You will receive an alert, giving the number of orders the <strong>LIL HELPER</strong> found.
-            After dismissing the alert, the <strong>LIL HELPER</strong> will display a table of parsed information.
+                After dismissing the alert, the <strong>LIL HELPER</strong> will display a table of parsed information.
             </p>
-            <p>After a moment, the program will <em>automatically</em> scroll to the bottom of the 
-            table. You should start at the bottom, and work your way up through the orders.</p>
+            <p>After a moment, the program will <em>automatically</em> scroll to the bottom of the
+                table. You should start at the bottom, and work your way up through the orders.</p>
             <p>There will occasionally be a small discrepancy between the number of orders processed
-                by the <li>LIL HELPER</li> and the number of orders in your MOM import.
+                by the <strong>LIL HELPER</strong> and the number of orders in your MOM import.
             </p>
+        </section>
+
+        <section id="devNotes">
+            <h2>DEVELOPMENT NOTES</h2>
+            <ul>
+                <li><b>LIL</b> stands for <b><u>L</u></b>ocal <b><u>I</u></b>ntermediary <b><u>L</u></b>ogic.</li>
+                <li>The <strong>LIL Helper</strong> was programmed using Vanilla JS. <img style="display:inline;border:0px;" src="http://vanilla-js.com/assets/button.png" /></li>
+            </ul>
         </section>
 
 
