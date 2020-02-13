@@ -104,23 +104,52 @@
                 <li><b>Load the Bizsync Orders.xml file</b></li>
                 <li><b>Load the Magento Orders.csv file</b></li>
                 <li><b>Parse the files by clicking the Parse Files Button</b></li>
-                <li><b>Click PARSE FILES</b>
-                    <p>This will convert both files into a format that the LIL Helper can use.</p>
-                </li>
-                <li><b>Double-check that the MOM import is ready.</b>
-                    <p>Never assume that just because the clock says 
+                <li><b>Click RUN PROGRAM button.</b></li>
+                <li><b>Double-check that the import XML file is ready.</b>
+                    <p>Never assume that just because the clock says
                         it's time for your import, that the import file is ready.
                         The Bizsync Orders.xml file may arrive early, or late.
-                        Don't make the mistake of importing orders that were 
+                        Don't make the mistake of importing orders that were
                         already imported, that means nothing but a lot of needless
                         cleanup.
                     </p>
                     <p>As a safeguard against this, the <strong>LIL HELPER</strong>
-                    will warn you before parsing the files to double-check that 
-                    your import file is ready.
+                        will warn you before parsing the files to double-check that
+                        your import file is ready.
+                    </p>
+                </li>
+                <li><b>If the import XML file is ready, click 'OK'</b>
+                    <p>The submitted files will be parsed and merged into
+                        a single collection of data.</p>
+                    <p>The program will terminate under the following conditions:</p>
+                    <ul>
+                        <li>If <em>no files</em> have been selected.</li>
+                        <li>If either file is in the incorrect place,
+                            for example, the CSV file is loaded in the area meant for the XML file.</li>
+                    </ul>
+                    <p>If only one file is used, and is in the correct place,
+                        the program will still work, but not as much information will be processed.
+                        <ul>
+                            <li>Using only the <strong>import XML file</strong> will provide information about
+                                <strong>shipping, special labor codes, special packaging, and phone numbers.</strong>
+                            </li>
+                            <li>Using only the <strong>Magento CSV file</strong> will provide information about
+                                <strong>the value of an order, signature/insurance requirements, fraud risk, and fraud
+                                    risk false-positives.</strong></li>
+                            <li>Using either spreadsheet provides information on <strong>multiple orders by one customer
+                                    within the same import.</strong></li>
+                        </ul>
                     </p>
                 </li>
             </ol>
+            <p>You will receive an alert, giving the number of orders the <strong>LIL HELPER</strong> found.
+            After dismissing the alert, the <strong>LIL HELPER</strong> will display a table of parsed information.
+            </p>
+            <p>After a moment, the program will <em>automatically</em> scroll to the bottom of the 
+            table. You should start at the bottom, and work your way up through the orders.</p>
+            <p>There will occasionally be a small discrepancy between the number of orders processed
+                by the <li>LIL HELPER</li> and the number of orders in your MOM import.
+            </p>
         </section>
 
 
