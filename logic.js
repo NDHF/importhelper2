@@ -7,8 +7,7 @@ console.log(
     "IN DEVELOPMENT: NOT FOR USE \n" +
     "UPDATES FROM 1.4: \n" +
     " * The program takes the bizsync spreadsheet " +
-    "and merges it with a Magento spreadsheet. \n" +
-    " * "
+    "and merges it with a Magento spreadsheet. \n"
 );
 
 document.addEventListener("DOMContentLoaded", function () {
