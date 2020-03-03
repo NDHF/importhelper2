@@ -22,9 +22,9 @@
             <h2>TABLE OF CONTENTS</h2>
             <ul>
                 <li><a href="#disclaimer"><b>DISCLAIMER</b></a></li>
-                <li><a href="#about"><b>ABOUT THE LIL HELPER: AN OVERVIEW</b></a></li>
+                <li><a href="#about"><b>ABOUT THE LIL HELPER: A BETTER WAY TO IMPORT</b></a></li>
                 <li><a href="#features"><b>FEATURES</b></a></li>
-                <li><a href="#setup"><b>SETUP</b></a></li>
+                <li><a href="#setup"><b>SETTING UP THE LIL HELPER</b></a></li>
                 <li><a href="#usingLILHelper"><b>USING THE LIL HELPER: A STEP-BY-STEP GUIDE</b></a></li>
                 <li><a href="#devNotes"><b>DEVELOPMENT NOTES</b></a></li>
             </ul>
@@ -37,10 +37,12 @@
         </section>
 
         <section id="about">
-            <h2>A BETTER WAY TO IMPORT</h2>
+            <h2>ABOUT THE LIL HELPER: 
+                <br />
+                A BETTER WAY TO IMPORT</h2>
             <p>The <strong>LIL HELPER</strong> takes the heartache and pain out of importing Magento orders into MOM.
             </p>
-            <p>For anyone who uses Bizsync to import orders from Magento to MOM, 
+            <p>For anyone who uses Bizsync to import orders from Magento to MOM,
                 the <strong>LIL Helper</strong> makes things easier by taking out the guess-work.
             </p>
             <p>Every MOM import has its potential dangers: shipping methods that need correction,
@@ -114,13 +116,101 @@
 
             <ol>
                 <li>To access user settings, load the <strong>LIL Helper</strong>,
-                and click the SHOW SETTINGS button in the top-right corner of the screen.
-                    <img style="width:60%;" src="images/showSettingsLocation.PNG" />
+                    and click the SHOW SETTINGS button in the <strong>top-right corner</strong> of the screen.
+                    <img style="width:60%;" alt="location of the button to show settings" title="location of the button to show settings" src="images/showSettingsLocation.PNG" />
                 </li>
                 <li>When the SHOW SETTINGS button is clicked, it will reveal the setting section in the lower
                     half of the screen.
+                    <img alt="the LIL Helper settings panel" title="the LIL Helper settings panel" src="images/settingsPanelFull.PNG" />
+                </li>
+                <li>The <strong>Company Name </strong> will be displayed when you submit your MOM Chat messages about
+                    starting/ending the import.
+                    <img alt="the company name input field" title="the company name input field" src="images/companyName.PNG" />
+                </li>
+                <li>The <strong>MOM Folder Validation String</strong> is a set of characters always found at the
+                    beginning of the Bizsync file.
+                    The LIL Helper checks for this sequence of characters to make reasonably sure that you're using the
+                    correct file.
+                    <img alt="the MOM Folder Validation string input" title="the MOM Folder Validation string input" src="images/momFolderValidationString.PNG" />
+                </li>
+                <li>The <strong>Magento Admin Folder Validation String</strong> is the same thing, but for the CSV file
+                    output from Magento.
+                    <img alt="the Magento Admin Folder Validation string input" title="the Magento Admin Folder Validation string input" src="images/magentoAdminFolderValidationString.PNG" />
+                </li>
+                <li>The <strong>Alternate ID</strong> is a code your company might use to quickly look up the
+                    most-recent orders brought into MOM.
+                    <img alt="Alternate ID input" title="Alternate ID input" src="images/alternateID.PNG" />
+                </li>
+                <li>Your <strong>Company IP Address</strong> is used to check for false-positives from Magento's fraud
+                    detection.
+                    When you process a customer's credit card, Magento's fraud detection will see a payment made with
+                    the customer's card, hundreds or
+                    thousands of miles away from the customer's billing address. Magento will usually assume that the
+                    card has been stolen, and give a
+                    high fraud risk to the order. The LIL Helper will check the IP address of an order against your
+                    company's IP address, and use that
+                    to detect a false positive.
+                    <img alt="Company IP Address input" alt="Company IP Address input" src="images/companyIPAddress.PNG" />
+                </li>
+                <li>The <strong>Start and End times</strong> are used to narrow down the number of orders displayed, so
+                    the LIL Helper
+                    will only show orders relevant to your import. This is especially important if you are only using
+                    the CSV order file from Magento.
+                    <img alt="import times input fields" title="import times input fields" src="images/importTimes.PNG" />
+                </li>
+                <li>Sometimes, an order placed by customer service will have special instructions associated with it.
+                    The <strong>special order code</strong>
+                    is sometimes used to flag orders with special instructions.
+                    <img alt="special order code input field" title="special order code input field" src="images/specialOrder.PNG" />
+                    <p><strong>NOTE: The following items may require special attention to set up.</strong></p>
+                </li>
+                <li>Some orders require special packing. For example, orders that contain one large item, and several
+                    small items, might require
+                    two boxes instead of one. Make a list of all items in your MOM inventory that might require special
+                    packing.
+                    <strong>Separate items with commas and no spaces.</strong>
+                    <img alt="special labor codes input field" title="special labor codes input field" src="images/specialLaborCodes.PNG" />
+                </li>
+                <li>The next three fields are used to help detect shipping problems with orders. For each of these
+                    fields, use official state abbreviations,
+                    and separate values by commas with no spaces.
+
+                    <p>For this example, we have assumed that the shipping warehouse is located in <b>Colorado</b>.</p>
+                    <ol>
+                        <li>The <strong>One-Day Zone</strong> includes all US states where you could deliver <strong>UPS
+                                Ground packages</strong> within one business day.
+                            <img alt="one-day shipping zone input field" title="one-day shipping zone input field" src="images/oneDayZone.PNG" />
+                        </li>
+                        <li>Next, list all states in the <strong>Two-Day Zone</strong> for your company.
+                            <img alt="two-day shipping zone input field" title="two-day shipping zone input field" src="images/twoDayZone.PNG" />
+                        </li>
+                        <li>Lastly, list all remaining states in the Contiguous (Lower-48) states US.
+                            <img alt="rest of lower 48 states input fields" title="rest of lower 48 states input field" src="images/restOfLower48.PNG" />
+                        </li>
+                    </ol>
+                    <p>If an order is shipping within the US, but outside the Lower 48 states (like Alaska or Hawaii),
+                        the LIL Helper will automatically recognize that.</p>
+                    <p>All orders not shipping to a recognized US state or territory will be automatically classified as
+                        an <strong>international order</strong>.</p>
+                    <p>If you notice any strange shipping notifications while using the LIL Helper, it may be due to a
+                        mistake in these fields.</p>
+                </li>
+                <li>The <strong>High-Value Order Threshold</strong> is the dollar amount at which your company deems an
+                    order to be high-value. These orders
+                    may require a signature and/or insurance, and will probably need to be considered carefully. Your
+                    company may require these orders have
+                    matching billing/shipping addresses, or other special considerations.
+                    <img alt="high-value order threshold input field" title="high-value order threshold input field" src="images/highValueOrderThreshold.PNG" />
+                </li>
+                <li>The <strong>Fraud Risk Threshold</strong> is the minimum Magento fraud risk score that your company
+                    considers suspicious. These orders
+                    may require special care. The LIL Helper will help detect false-positives caused by customer service
+                    placing the order.
+                    <img alt="high fraud risk threshold input field" title="high fraud risk threshold input field" src="images/fraudRiskThreshold.PNG" />
                 </li>
             </ol>
+            <p><strong>These values are stored in local storage in your browser, they are not stored on a
+                    server.</strong></p>
         </section>
 
         <section id="usingLILHelper">
@@ -143,7 +233,8 @@
                     If you do not have dates selected, Magento will attempt to make a CSV file with <strong>all</strong>
                     company's orders, which will jam the system.</p>
                 <p>On the right-hand side of the page, click the <b>Export</b> button.</p>
-                <img src="images/magentoExportCSVButton.PNG" title="The button for exporting Magento's CSV orders file" />
+                <img src="images/magentoExportCSVButton.PNG"
+                    title="The button for exporting Magento's CSV orders file" />
                 <p>This will download a CSV file to your specified download folder.</p>
                 <img src="images/downloadedCSVFile.png" title="What a dowloaded CSV orders file looks like in Chrome" />
                 <p>The CSV file is now ready to load.</p>
@@ -206,7 +297,8 @@
             <h2>DEVELOPMENT NOTES</h2>
             <ul>
                 <li><b>LIL</b> stands for <b><u>L</u></b>ocal <b><u>I</u></b>ntermediary <b><u>L</u></b>ogic.</li>
-                <li>The <strong>LIL Helper</strong> was programmed using Vanilla JS. <img style="display:inline;border:0px;" src="http://vanilla-js.com/assets/button.png" /></li>
+                <li>The <strong>LIL Helper</strong> was programmed using Vanilla JS. <img
+                        style="display:inline;border:0px;" src="http://vanilla-js.com/assets/button.png" /></li>
             </ul>
         </section>
 
