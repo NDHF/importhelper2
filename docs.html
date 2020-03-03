@@ -24,7 +24,11 @@
                 <li><a href="#disclaimer"><b>DISCLAIMER</b></a></li>
                 <li><a href="#about"><b>ABOUT THE LIL HELPER: A BETTER WAY TO IMPORT</b></a></li>
                 <li><a href="#features"><b>FEATURES</b></a></li>
-                <li><a href="#setup"><b>SETTING UP THE LIL HELPER</b></a></li>
+                <li><a href="#setup"><b>SETTING UP THE LIL HELPER</b></a>
+                    <ul>
+                        <li><a href="#savingAndLoadingSettings"><b>SAVING AND LOADING YOUR SETTINGS</b></a></li>
+                    </ul>
+                </li>
                 <li><a href="#usingLILHelper"><b>USING THE LIL HELPER: A STEP-BY-STEP GUIDE</b></a></li>
                 <li><a href="#devNotes"><b>DEVELOPMENT NOTES</b></a></li>
             </ul>
@@ -211,6 +215,23 @@
             </ol>
             <p><strong>These values are stored in local storage in your browser, they are not stored on a
                     server.</strong></p>
+            <h2 id="savingAndLoadingSettings">SAVING/LOADING YOUR SETTINGS</h2>
+            <p>In some cases, it may be useful for co-workers to share settings, rather than have everyone go through the setup process separately.</p>
+            <p>The LIL Helper makes it easy to copy your user settings, or load in someone else's</p>
+            <p><strong>To export your settings,</strong> click the button labeled <strong>Copy Settings to Clipboard</strong> 
+            in the <strong>bottom-right</strong> of the settings panel.</p>
+            <img alt="button to copy settings to clipboard" title="button to copy settings to clipboard" src="images/copySettingsToClipboard.PNG" />
+            <p>Then, open a new email or text document, and hit <kbd>Control + v</kbd> to paste the settings. It will look something like this:</p>
+            <img alt="raw settings in text editor" title="what raw settings will look like in a text editor" src="images/copySettingsResults.PNG" />
+            <p>Do not be alarmed, it's supposed to look like that. You now have the raw LIL Helper settings that someone else can load into their program.</p>
+            <br />
+            <p><strong>To load someone else's user settings into your computer,</strong> click the <strong>LOAD SETTINGS</strong> 
+            button in the <strong>bottom-left</strong> of the settings panel.</p>
+            <img alt="load settings button" title="load settings button" src="images/loadSettingsButton.PNG" />
+            <p>After clicking <strong>LOAD SETTINGS</strong>, you will receive a prompt, asking you to paste a 'settings string'.</p>
+            <img alt="'paste settings' prompt" title="'paste settings' prompt" src="images/pasteSettingsPrompt.PNG" />
+            <p>Paste the raw settings info from earlier, and click <strong>OK</strong></p>
+            <p>The settings will be automatically loaded into the LIL Helper, and saved into the browser's local storage.</p>
         </section>
 
         <section id="usingLILHelper">
